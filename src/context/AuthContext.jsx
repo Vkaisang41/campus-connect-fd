@@ -8,10 +8,27 @@ export const AuthProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : null;
   });
 
+  const [bookings, setBookings] = useState(() => {
+    const saved = localStorage.getItem("bookings");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const updateProfile = (updates) => {
     const updatedUser = { ...user, ...updates };
     setUser(updatedUser);
     localStorage.setItem("user", JSON.stringify(updatedUser));
+  };
+
+  const addBooking = (booking) => {
+    const newBooking = {
+      id: Date.now(),
+      ...booking,
+      status: "Pending",
+      createdAt: new Date().toISOString(),
+    };
+    const updatedBookings = [...bookings, newBooking];
+    setBookings(updatedBookings);
+    localStorage.setItem("bookings", JSON.stringify(updatedBookings));
   };
 
   const login = (data) => {
@@ -25,7 +42,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, setUser, updateProfile }}>
+    <AuthContext.Provider value={{ user, login, logout, setUser, updateProfile, bookings, addBooking }}>
       {children}
     </AuthContext.Provider>
   );

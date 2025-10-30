@@ -1,13 +1,24 @@
 // src/pages/student/Services.jsx
 import { useEffect, useState } from "react";
 import { fetchServices } from "../../services/serviceApi";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Services() {
   const [services, setServices] = useState([]);
+  const { addBooking } = useAuth();
 
   useEffect(() => {
     fetchServices().then(setServices);
   }, []);
+
+  const handleBookService = (service) => {
+    addBooking({
+      service: service.name,
+      vendor: service.vendorName,
+      price: service.price,
+    });
+    alert(`Booking request sent for ${service.name}!`);
+  };
 
   return (
     <div className="text-white">
@@ -21,7 +32,13 @@ export default function Services() {
           >
             <h3 className="font-semibold">{s.name}</h3>
             <p className="text-sm text-gray-400">{s.vendorName}</p>
-            <p className="mt-2 text-neon font-medium">{s.price}</p>
+            <p className="mt-2 text-lime-400 font-medium">{s.price}</p>
+            <button
+              onClick={() => handleBookService(s)}
+              className="mt-3 w-full bg-lime-400 hover:bg-lime-500 text-black font-semibold py-2 rounded transition-colors"
+            >
+              Book Now
+            </button>
           </div>
         ))}
       </div>
