@@ -7,6 +7,11 @@ import SignupPage from "./pages/SignupPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
+// Dashboard pages
+import StudentDashboard from "./pages/dashboard/StudentDashboard";
+import VendorDashboard from "./pages/dashboard/VendorDashboard";
+import AdminDashboard from "./pages/dashboard/AdminDashboard";
+
 // Student pages
 import StudentLayout from "./pages/student/StudentLayout";
 import Overview from "./pages/student/Overview";
@@ -21,6 +26,17 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+
+      {/* Dashboard routes */}
+      <Route element={<ProtectedRoute role="student" />}>
+        <Route path="/student/dashboard" element={<StudentDashboard />} />
+      </Route>
+      <Route element={<ProtectedRoute role="vendor" />}>
+        <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+      </Route>
+      <Route element={<ProtectedRoute role="admin" />}>
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      </Route>
 
       {/* Protected student routes */}
       <Route element={<ProtectedRoute role="student" />}>
