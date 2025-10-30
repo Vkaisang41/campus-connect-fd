@@ -15,7 +15,7 @@ export default function StudentDashboard() {
       {/* Tabs */}
       <div className="flex space-x-4 mt-6">
         <button
-          onClick={() => navigate("/services")}
+          onClick={() => navigate("/student/services")}
           className="px-4 py-2 rounded bg-gray-800 hover:bg-gray-700 text-sm"
         >
           Browse Services

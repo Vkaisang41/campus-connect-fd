@@ -81,6 +81,46 @@ export default function Overview() {
           </Link>
         </div>
       </div>
+
+      {/* Featured Services */}
+      <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-6 mt-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold">Popular Services</h2>
+          <Link to="/student/services" className="text-lime-400 text-sm hover:text-lime-300">
+            Browse all →
+          </Link>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-[#111] border border-gray-700 rounded-lg p-4 hover:border-lime-400 transition-colors">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 bg-lime-400 rounded-full flex items-center justify-center text-black font-bold text-sm">L</div>
+              <div>
+                <div className="font-medium text-sm">Laundry Service</div>
+                <div className="text-xs text-gray-400">CleanWave Laundry</div>
+              </div>
+            </div>
+            <p className="text-xs text-gray-300 mb-2">Professional laundry with quick turnaround</p>
+            <div className="flex justify-between items-center">
+              <span className="text-lime-400 text-sm font-medium">$5/kg</span>
+              <span className="text-yellow-400 text-xs">★ 4.5</span>
+            </div>
+          </div>
+          <div className="bg-[#111] border border-gray-700 rounded-lg p-4 hover:border-lime-400 transition-colors">
+            <div className="flex items-center gap-3 mb-2">
+              <div className="w-8 h-8 bg-blue-400 rounded-full flex items-center justify-center text-white font-bold text-sm">P</div>
+              <div>
+                <div className="font-medium text-sm">Printing Service</div>
+                <div className="text-xs text-gray-400">SwiftPrint</div>
+              </div>
+            </div>
+            <p className="text-xs text-gray-300 mb-2">High-quality printing for all your needs</p>
+            <div className="flex justify-between items-center">
+              <span className="text-lime-400 text-sm font-medium">$0.20/page</span>
+              <span className="text-yellow-400 text-xs">★ 4.2</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

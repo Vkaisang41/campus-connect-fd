@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../../context/AuthContext";
 import { fetchServices } from "../../services/serviceApi";
 
 export default function AdminDashboard() {
+  const { reports } = useAuth();
   const [stats, setStats] = useState({
     totalUsers: 245,
     totalServices: 0,
     totalBookings: 89,
-    pendingApprovals: 12
+    pendingApprovals: 12,
+    pendingReports: 0
   });
   const [services, setServices] = useState([]);
   const [pendingServices, setPendingServices] = useState([]);
@@ -14,7 +17,11 @@ export default function AdminDashboard() {
   useEffect(() => {
     fetchServices().then(allServices => {
       setServices(allServices);
-      setStats(prev => ({ ...prev, totalServices: allServices.length }));
+      setStats(prev => ({
+        ...prev,
+        totalServices: allServices.length,
+        pendingReports: reports.filter(r => r.status === 'Pending').length
+      }));
 
       // Mock pending services for approval
       setPendingServices([
@@ -22,7 +29,7 @@ export default function AdminDashboard() {
         { id: 11, name: "Event Planning", vendor: "Campus Events Co", status: "Pending" },
       ]);
     });
-  }, []);
+  }, [reports]);
 
   const approveService = (serviceId) => {
     setPendingServices(pendingServices.filter(s => s.id !== serviceId));
@@ -57,8 +64,8 @@ export default function AdminDashboard() {
             <div className="text-sm text-gray-400">Total Bookings</div>
           </div>
           <div className="bg-[#111] border border-[#262626] rounded p-4">
-            <div className="text-2xl font-bold text-red-400">{stats.pendingApprovals}</div>
-            <div className="text-sm text-gray-400">Pending Approvals</div>
+            <div className="text-2xl font-bold text-red-400">{stats.pendingReports}</div>
+            <div className="text-sm text-gray-400">Pending Reports</div>
           </div>
         </div>
 
@@ -89,6 +96,45 @@ export default function AdminDashboard() {
                       className="bg-red-600 hover:bg-red-500 text-white px-3 py-1 rounded text-sm"
                     >
                       Reject
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Pending Reports */}
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold mb-4">Pending Reports</h2>
+          {reports.filter(r => r.status === 'Pending').length === 0 ? (
+            <div className="bg-[#111] border border-[#262626] rounded p-4">
+              <p className="text-gray-500 text-sm">No pending reports</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {reports.filter(r => r.status === 'Pending').map((report) => (
+                <div key={report.id} className="bg-[#111] border border-[#262626] rounded p-4">
+                  <div className="flex justify-between items-start mb-2">
+                    <div>
+                      <div className="font-semibold text-sm">
+                        {report.type === 'student_to_vendor' ? 'Student Report' : 'Vendor Report'}
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        Reported by: {report.reporter}
+                      </div>
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      {new Date(report.createdAt).toLocaleDateString()}
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-300 mb-3">{report.description}</p>
+                  <div className="flex gap-2">
+                    <button className="bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded text-xs">
+                      Investigate
+                    </button>
+                    <button className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-xs">
+                      Dismiss
                     </button>
                   </div>
                 </div>

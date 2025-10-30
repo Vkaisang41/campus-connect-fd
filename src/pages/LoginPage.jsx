@@ -63,12 +63,15 @@ export default function LoginPage() {
           </p>
 
           {/* Quick demo card */}
-          <div className="bg-[#111] border border-gray-800 rounded-lg p-3 text-sm text-gray-300 w-[300px]">
-            <p className="text-gray-400 mb-1">Quick login demo accounts:</p>
-            <p><span className="text-lime-400">Student:</span> student@campus.edu</p>
-            <p><span className="text-blue-400">Vendor:</span> vendor@campus.edu</p>
-            <p><span className="text-yellow-400">Admin:</span> admin@campus.edu</p>
-            <p className="text-xs text-gray-500 mt-1">Password: any</p>
+          <div className="bg-[#111] border border-gray-800 rounded-lg p-4 text-sm text-gray-300 w-[320px]">
+            <p className="text-gray-400 mb-2 font-semibold">Quick login demo accounts:</p>
+            <div className="space-y-1">
+              <p><span className="text-lime-400 font-medium">Student:</span> student@campus.edu</p>
+              <p><span className="text-blue-400 font-medium">Vendor:</span> vendor@campus.edu</p>
+              <p><span className="text-yellow-400 font-medium">Admin:</span> admin@campus.edu</p>
+            </div>
+            <p className="text-xs text-gray-500 mt-2 border-t border-gray-700 pt-2">Password: any value</p>
+            <p className="text-xs text-lime-400 mt-1">💡 Try admin@campus.edu to see reports</p>
           </div>
         </motion.div>
 

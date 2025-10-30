@@ -13,6 +13,11 @@ export const AuthProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [reports, setReports] = useState(() => {
+    const saved = localStorage.getItem("reports");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const updateProfile = (updates) => {
     const updatedUser = { ...user, ...updates };
     setUser(updatedUser);
@@ -31,6 +36,18 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("bookings", JSON.stringify(updatedBookings));
   };
 
+  const addReport = (report) => {
+    const newReport = {
+      id: Date.now(),
+      ...report,
+      status: "Pending",
+      createdAt: new Date().toISOString(),
+    };
+    const updatedReports = [...reports, newReport];
+    setReports(updatedReports);
+    localStorage.setItem("reports", JSON.stringify(updatedReports));
+  };
+
   const login = (data) => {
     setUser(data);
     localStorage.setItem("user", JSON.stringify(data));
@@ -42,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, setUser, updateProfile, bookings, addBooking }}>
+    <AuthContext.Provider value={{ user, login, logout, setUser, updateProfile, bookings, addBooking, reports, addReport }}>
       {children}
     </AuthContext.Provider>
   );

@@ -3,9 +3,13 @@ import { useAuth } from "../../context/AuthContext";
 import { fetchServices } from "../../services/serviceApi";
 
 export default function VendorDashboard() {
-  const { user } = useAuth();
+  const { user, addReport } = useAuth();
   const [services, setServices] = useState([]);
   const [bookings, setBookings] = useState([]);
+  const [editingService, setEditingService] = useState(null);
+  const [editForm, setEditForm] = useState({ name: '', description: '', price: '' });
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [reportForm, setReportForm] = useState({ studentEmail: '', reason: '' });
 
   useEffect(() => {
     // Load services and mock bookings for this vendor
@@ -27,6 +31,54 @@ export default function VendorDashboard() {
     setBookings(bookings.map(b =>
       b.id === bookingId ? { ...b, status: newStatus } : b
     ));
+  };
+
+  const handleEditService = (service) => {
+    setEditingService(service.id);
+    setEditForm({
+      name: service.name,
+      description: service.description,
+      price: service.price
+    });
+  };
+
+  const handleSaveService = () => {
+    setServices(services.map(s =>
+      s.id === editingService
+        ? { ...s, ...editForm }
+        : s
+    ));
+    setEditingService(null);
+    setEditForm({ name: '', description: '', price: '' });
+    alert('Service updated successfully!');
+  };
+
+  const handleCancelEdit = () => {
+    setEditingService(null);
+    setEditForm({ name: '', description: '', price: '' });
+  };
+
+  const handleReportStudent = () => {
+    setShowReportModal(true);
+  };
+
+  const submitStudentReport = () => {
+    if (!reportForm.studentEmail.trim() || !reportForm.reason.trim()) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    addReport({
+      type: "vendor_to_student",
+      reporter: user?.email || "Vendor",
+      reportedEntity: reportForm.studentEmail,
+      reason: reportForm.reason,
+      description: `Vendor reported student ${reportForm.studentEmail} for: ${reportForm.reason}`,
+    });
+
+    setShowReportModal(false);
+    setReportForm({ studentEmail: '', reason: '' });
+    alert("Report submitted successfully. Admin will review it.");
   };
 
   return (
@@ -63,14 +115,58 @@ export default function VendorDashboard() {
           <div className="grid grid-cols-2 gap-4">
             {services.map((service) => (
               <div key={service.id} className="bg-[#111] border border-[#262626] rounded p-4">
-                <h3 className="font-semibold">{service.name}</h3>
-                <p className="text-sm text-gray-400 mt-1">{service.description}</p>
-                <div className="flex justify-between items-center mt-3">
-                  <span className="text-lime-400 font-medium">{service.price}</span>
-                  <button className="text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded">
-                    Edit
-                  </button>
-                </div>
+                {editingService === service.id ? (
+                  <div className="space-y-3">
+                    <input
+                      type="text"
+                      value={editForm.name}
+                      onChange={(e) => setEditForm({...editForm, name: e.target.value})}
+                      className="w-full bg-[#222] border border-gray-600 rounded px-3 py-2 text-white"
+                      placeholder="Service name"
+                    />
+                    <textarea
+                      value={editForm.description}
+                      onChange={(e) => setEditForm({...editForm, description: e.target.value})}
+                      className="w-full bg-[#222] border border-gray-600 rounded px-3 py-2 text-white h-20"
+                      placeholder="Description"
+                    />
+                    <input
+                      type="text"
+                      value={editForm.price}
+                      onChange={(e) => setEditForm({...editForm, price: e.target.value})}
+                      className="w-full bg-[#222] border border-gray-600 rounded px-3 py-2 text-white"
+                      placeholder="Price"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={handleSaveService}
+                        className="bg-green-600 hover:bg-green-500 text-white px-3 py-1 rounded text-sm"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={handleCancelEdit}
+                        className="bg-gray-600 hover:bg-gray-500 text-white px-3 py-1 rounded text-sm"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="font-semibold">{service.name}</h3>
+                    <p className="text-sm text-gray-400 mt-1">{service.description}</p>
+                    <div className="flex justify-between items-center mt-3">
+                      <span className="text-lime-400 font-medium">{service.price}</span>
+                      <button
+                        onClick={() => handleEditService(service)}
+                        className="text-sm bg-gray-700 hover:bg-gray-600 px-3 py-1 rounded"
+                      >
+                        Edit
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             ))}
           </div>
@@ -116,6 +212,70 @@ export default function VendorDashboard() {
             ))}
           </div>
         </div>
+
+        {/* Quick Actions */}
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+          <div className="grid grid-cols-3 gap-4">
+            <button
+              onClick={handleReportStudent}
+              className="bg-red-600 hover:bg-red-500 text-white p-3 rounded text-sm"
+            >
+              Report Student
+            </button>
+            <button className="bg-green-600 hover:bg-green-500 text-white p-3 rounded text-sm">
+              Add New Service
+            </button>
+            <button className="bg-purple-600 hover:bg-purple-500 text-white p-3 rounded text-sm">
+              Service Analytics
+            </button>
+          </div>
+        </div>
+
+        {/* Report Student Modal */}
+        {showReportModal && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div className="bg-[#151515] border border-gray-800 rounded-xl p-6 w-[400px] max-w-[90vw]">
+              <h3 className="text-lg font-semibold mb-4">Report Student</h3>
+              <p className="text-sm text-gray-400 mb-4">
+                Report a student for inappropriate behavior or booking violations.
+              </p>
+
+              <input
+                type="email"
+                value={reportForm.studentEmail}
+                onChange={(e) => setReportForm({...reportForm, studentEmail: e.target.value})}
+                className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 text-white mb-3"
+                placeholder="Student email address"
+              />
+
+              <textarea
+                value={reportForm.reason}
+                onChange={(e) => setReportForm({...reportForm, reason: e.target.value})}
+                className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 text-white h-24 mb-4"
+                placeholder="Describe the issue..."
+              />
+
+              <div className="flex gap-3">
+                <button
+                  onClick={submitStudentReport}
+                  className="flex-1 bg-red-600 hover:bg-red-500 text-white font-semibold py-2 rounded transition-colors"
+                >
+                  Submit Report
+                </button>
+                <button
+                  onClick={() => {
+                    setShowReportModal(false);
+                    setReportForm({ studentEmail: '', reason: '' });
+                  }}
+                  className="flex-1 bg-gray-600 hover:bg-gray-500 text-white font-semibold py-2 rounded transition-colors"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
