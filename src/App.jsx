@@ -12,6 +12,14 @@ import StudentDashboard from "./pages/dashboard/StudentDashboard";
 import VendorDashboard from "./pages/dashboard/VendorDashboard";
 import AdminDashboard from "./pages/dashboard/AdminDashboard";
 
+// Other pages
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import TermsPage from "./pages/TermsPage";
+import FAQPage from "./pages/FAQPage";
+import HelpPage from "./pages/HelpPage";
+
 // Student pages
 import StudentLayout from "./pages/student/StudentLayout";
 import Overview from "./pages/student/Overview";
@@ -26,6 +34,12 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/about" element={<AboutPage />} />
+      <Route path="/contact" element={<ContactPage />} />
+      <Route path="/privacy" element={<PrivacyPage />} />
+      <Route path="/terms" element={<TermsPage />} />
+      <Route path="/faq" element={<FAQPage />} />
+      <Route path="/help" element={<HelpPage />} />
 
       {/* Dashboard routes */}
       <Route element={<ProtectedRoute role="student" />}>

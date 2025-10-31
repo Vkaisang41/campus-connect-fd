@@ -18,6 +18,11 @@ export const AuthProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : [];
   });
 
+  const [notifications, setNotifications] = useState(() => {
+    const saved = localStorage.getItem("notifications");
+    return saved ? JSON.parse(saved) : [];
+  });
+
   const updateProfile = (updates) => {
     const updatedUser = { ...user, ...updates };
     setUser(updatedUser);
@@ -46,6 +51,40 @@ export const AuthProvider = ({ children }) => {
     const updatedReports = [...reports, newReport];
     setReports(updatedReports);
     localStorage.setItem("reports", JSON.stringify(updatedReports));
+
+    // Add notification for admin
+    addNotification({
+      id: Date.now(),
+      type: "report",
+      title: "New Report Submitted",
+      message: `${report.type === 'student_to_vendor' ? 'Student' : 'Vendor'} reported an issue`,
+      recipient: "admin",
+      read: false,
+      createdAt: new Date().toISOString()
+    });
+  };
+
+  const addNotification = (notification) => {
+    const newNotification = {
+      id: Date.now(),
+      ...notification,
+      createdAt: new Date().toISOString(),
+    };
+    const updatedNotifications = [newNotification, ...notifications];
+    setNotifications(updatedNotifications);
+    localStorage.setItem("notifications", JSON.stringify(updatedNotifications));
+  };
+
+  const markNotificationAsRead = (notificationId) => {
+    const updatedNotifications = notifications.map(n =>
+      n.id === notificationId ? { ...n, read: true } : n
+    );
+    setNotifications(updatedNotifications);
+    localStorage.setItem("notifications", JSON.stringify(updatedNotifications));
+  };
+
+  const getUnreadNotifications = () => {
+    return notifications.filter(n => !n.read);
   };
 
   const login = (data) => {
@@ -59,7 +98,21 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, setUser, updateProfile, bookings, addBooking, reports, addReport }}>
+    <AuthContext.Provider value={{
+      user,
+      login,
+      logout,
+      setUser,
+      updateProfile,
+      bookings,
+      addBooking,
+      reports,
+      addReport,
+      notifications,
+      addNotification,
+      markNotificationAsRead,
+      getUnreadNotifications
+    }}>
       {children}
     </AuthContext.Provider>
   );

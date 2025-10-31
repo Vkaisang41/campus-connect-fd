@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { fetchServices } from "../../services/serviceApi";
 
 export default function AdminDashboard() {
-  const { reports } = useAuth();
+  const { reports, notifications, markNotificationAsRead, getUnreadNotifications } = useAuth();
   const [stats, setStats] = useState({
     totalUsers: 245,
     totalServices: 0,
@@ -44,10 +44,22 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-[#0E0E0E] text-white px-8 py-10">
       <div className="max-w-[1200px] mx-auto">
-        <h1 className="text-xl font-semibold">Admin Dashboard</h1>
-        <p className="text-gray-400 text-sm mt-2">
-          System overview & user/service moderation.
-        </p>
+        {/* Header with Back Button */}
+        <div className="mb-8">
+          <button
+            onClick={() => window.history.back()}
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-lime-400 transition-colors mb-4"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+          </button>
+          <h1 className="text-3xl font-bold">Admin Dashboard</h1>
+          <p className="text-gray-400 text-lg mt-2">
+            System overview & user/service moderation
+          </p>
+        </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-4 gap-4 mt-6">
@@ -164,13 +176,48 @@ export default function AdminDashboard() {
         <div className="mt-8">
           <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
           <div className="grid grid-cols-3 gap-4">
-            <button className="bg-blue-600 hover:bg-blue-500 text-white p-3 rounded text-sm">
+            <button
+              onClick={() => {
+                const users = JSON.parse(localStorage.getItem("users") || "[]");
+                alert(`Total registered users: ${users.length}\n\n${users.map(u => `${u.name} (${u.role}) - ${u.email}`).join('\n')}`);
+              }}
+              className="bg-blue-600 hover:bg-blue-500 text-white p-3 rounded text-sm"
+            >
               Manage Users
             </button>
-            <button className="bg-green-600 hover:bg-green-500 text-white p-3 rounded text-sm">
+            <button
+              onClick={() => {
+                const newService = {
+                  id: Date.now(),
+                  name: "New Admin Service",
+                  description: "Service added by admin",
+                  price: "$50",
+                  vendorName: "Admin Services",
+                  rating: 5.0
+                };
+                const services = JSON.parse(localStorage.getItem("services") || "[]");
+                services.push(newService);
+                localStorage.setItem("services", JSON.stringify(services));
+                alert('New service added successfully!');
+                window.location.reload();
+              }}
+              className="bg-green-600 hover:bg-green-500 text-white p-3 rounded text-sm"
+            >
               Add New Service
             </button>
-            <button className="bg-purple-600 hover:bg-purple-500 text-white p-3 rounded text-sm">
+            <button
+              onClick={() => {
+                const settings = {
+                  maintenance: false,
+                  notifications: true,
+                  maxBookings: 10,
+                  lastUpdated: new Date().toISOString()
+                };
+                localStorage.setItem("systemSettings", JSON.stringify(settings));
+                alert('System settings updated!\n\nMaintenance: Off\nNotifications: On\nMax Bookings: 10');
+              }}
+              className="bg-purple-600 hover:bg-purple-500 text-white p-3 rounded text-sm"
+            >
               System Settings
             </button>
           </div>

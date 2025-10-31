@@ -83,11 +83,23 @@ export default function VendorDashboard() {
 
   return (
     <div className="min-h-screen bg-[#0E0E0E] text-white px-8 py-10">
-      <div className="max-w-[1200px] mx-auto">
-        <h1 className="text-xl font-semibold">My Services</h1>
-        <p className="text-gray-400 text-sm mt-2">
-          Manage bookings & update service listings.
-        </p>
+      <div className="max-w-7xl mx-auto">
+        {/* Header with Back Button */}
+        <div className="mb-8">
+          <button
+            onClick={() => window.history.back()}
+            className="inline-flex items-center gap-2 text-gray-400 hover:text-lime-400 transition-colors mb-4"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+            Back
+          </button>
+          <h1 className="text-3xl font-bold">Vendor Dashboard</h1>
+          <p className="text-gray-400 text-lg mt-2">
+            Welcome back, {user?.name}! Manage your services and bookings
+          </p>
+        </div>
 
         {/* Stats Cards */}
         <div className="grid grid-cols-4 gap-4 mt-6">

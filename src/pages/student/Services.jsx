@@ -5,14 +5,71 @@ import { useAuth } from "../../context/AuthContext";
 
 export default function Services() {
   const [services, setServices] = useState([]);
+  const [filteredServices, setFilteredServices] = useState([]);
   const [showReportModal, setShowReportModal] = useState(false);
   const [selectedVendor, setSelectedVendor] = useState(null);
   const [reportReason, setReportReason] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [sortBy, setSortBy] = useState("rating");
   const { addBooking, addReport, user } = useAuth();
 
   useEffect(() => {
     fetchServices().then(setServices);
   }, []);
+
+  useEffect(() => {
+    let filtered = services;
+
+    // Search filter
+    if (searchTerm) {
+      filtered = filtered.filter(service =>
+        service.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        service.vendorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        service.description.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    // Category filter
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(service => {
+        // Map categories to service types
+        const categoryMap = {
+          "Laundry": ["Laundry", "Wash", "Clean"],
+          "Printing": ["Printing", "Print", "Copy"],
+          "Tutoring": ["Tutoring", "Academic", "Study"],
+          "Food & Beverage": ["Food", "Catering", "Restaurant", "Cafe"],
+          "Transportation": ["Transport", "Ride", "Delivery"],
+          "Technology": ["Tech", "Computer", "IT", "Repair"],
+          "Academic Services": ["Academic", "Library", "Study"],
+          "Creative Services": ["Design", "Creative", "Art"],
+          "Automotive": ["Car", "Auto", "Vehicle"]
+        };
+        return categoryMap[selectedCategory]?.some(keyword =>
+          service.name.toLowerCase().includes(keyword.toLowerCase()) ||
+          service.description.toLowerCase().includes(keyword.toLowerCase())
+        );
+      });
+    }
+
+    // Sort
+    filtered.sort((a, b) => {
+      switch (sortBy) {
+        case "rating":
+          return b.rating - a.rating;
+        case "price-low":
+          return parseFloat(a.price.replace(/[^0-9.-]+/g, "")) - parseFloat(b.price.replace(/[^0-9.-]+/g, ""));
+        case "price-high":
+          return parseFloat(b.price.replace(/[^0-9.-]+/g, "")) - parseFloat(a.price.replace(/[^0-9.-]+/g, ""));
+        case "name":
+          return a.name.localeCompare(b.name);
+        default:
+          return 0;
+      }
+    });
+
+    setFilteredServices(filtered);
+  }, [services, searchTerm, selectedCategory, sortBy]);
 
   const handleBookService = (service) => {
     addBooking({
@@ -50,59 +107,122 @@ export default function Services() {
 
   return (
     <div className="text-white">
-      <h2 className="text-xl font-bold mb-6">Available Services</h2>
+      <div className="mb-8">
+        <h2 className="text-2xl font-bold mb-2">Available Services</h2>
+        <p className="text-gray-400">Discover and book campus services with ease</p>
+      </div>
 
-      {/* Category Filter */}
-      <div className="mb-6">
-        <div className="flex flex-wrap gap-2">
-          {["All", "Laundry", "Printing", "Tutoring", "Food & Beverage", "Transportation", "Technology", "Academic Services", "Creative Services", "Automotive"].map((category) => (
-            <button
-              key={category}
-              className={`px-3 py-1 rounded text-sm ${
-                category === "All"
-                  ? "bg-lime-400 text-black"
-                  : "bg-gray-700 hover:bg-gray-600 text-white"
-              }`}
+      {/* Search and Filters */}
+      <div className="bg-[#0f0f0f] border border-gray-800 rounded-xl p-6 mb-8">
+        <div className="grid md:grid-cols-4 gap-4">
+          {/* Search */}
+          <div className="md:col-span-2">
+            <label className="block text-sm font-medium text-gray-300 mb-2">Search Services</label>
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search by name, vendor, or description..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-lime-400 focus:outline-none transition-colors"
+              />
+              <svg className="absolute right-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+          </div>
+
+          {/* Category Filter */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Category</label>
+            <select
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
+              className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-lime-400 focus:outline-none transition-colors"
             >
-              {category}
-            </button>
-          ))}
+              <option value="All">All Categories</option>
+              <option value="Laundry">Laundry</option>
+              <option value="Printing">Printing</option>
+              <option value="Tutoring">Tutoring</option>
+              <option value="Food & Beverage">Food & Beverage</option>
+              <option value="Transportation">Transportation</option>
+              <option value="Technology">Technology</option>
+              <option value="Academic Services">Academic Services</option>
+              <option value="Creative Services">Creative Services</option>
+              <option value="Automotive">Automotive</option>
+            </select>
+          </div>
+
+          {/* Sort */}
+          <div>
+            <label className="block text-sm font-medium text-gray-300 mb-2">Sort By</label>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-lime-400 focus:outline-none transition-colors"
+            >
+              <option value="rating">Highest Rated</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+              <option value="name">Name A-Z</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Results Count */}
+        <div className="mt-4 text-sm text-gray-400">
+          Showing {filteredServices.length} of {services.length} services
         </div>
       </div>
 
-      <div className="grid grid-cols-3 gap-5">
-        {services.map((s) => (
+      {/* Services Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredServices.map((s) => (
           <div
             key={s.id}
-            className="bg-[#151515] border border-gray-800 p-4 rounded-xl hover:border-gray-600 transition-colors"
+            className="bg-[#0f0f0f] border border-gray-800 p-6 rounded-xl hover:border-lime-400/50 hover:shadow-lg hover:shadow-lime-400/10 transition-all duration-300 group"
           >
-            <div className="flex items-start justify-between mb-2">
-              <h3 className="font-semibold text-lg">{s.name}</h3>
-              <div className="flex items-center gap-1">
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex-1">
+                <h3 className="font-semibold text-lg text-white group-hover:text-lime-400 transition-colors mb-1">{s.name}</h3>
+                <p className="text-sm text-gray-400">{s.vendorName}</p>
+              </div>
+              <div className="flex items-center gap-1 bg-[#1a1a1a] px-2 py-1 rounded-full">
                 <span className="text-yellow-400 text-sm">★</span>
-                <span className="text-sm text-gray-300">{s.rating}</span>
+                <span className="text-sm text-gray-300 font-medium">{s.rating}</span>
+                <span className="text-xs text-gray-500 ml-1">({s.reviews})</span>
               </div>
             </div>
-            <p className="text-sm text-gray-400 mb-1">{s.vendorName}</p>
-            <p className="text-xs text-gray-500 mb-2">({s.reviews} reviews)</p>
-            <p className="text-sm text-gray-300 mb-3 line-clamp-2">{s.description}</p>
-            <div className="flex items-center justify-between">
-              <p className="text-lime-400 font-medium">{s.price}</p>
-              <div className="flex gap-2">
-                <button
-                  onClick={() => handleReportVendor(s.vendorName)}
-                  className="text-xs bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded"
-                  title="Report this vendor"
-                >
-                  Report
-                </button>
-                <button
-                  onClick={() => handleBookService(s)}
-                  className="bg-lime-400 hover:bg-lime-500 text-black font-semibold px-3 py-2 rounded transition-colors text-sm"
-                >
-                  Book Now
-                </button>
+
+            <p className="text-sm text-gray-300 mb-4 line-clamp-2 leading-relaxed">{s.description}</p>
+
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <span className="text-2xl font-bold text-lime-400">{s.price}</span>
+                <span className="text-xs text-gray-500">per service</span>
               </div>
+              <div className="flex items-center gap-1 text-xs text-gray-400">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <span>~30 min</span>
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => handleReportVendor(s.vendorName)}
+                className="flex-1 text-xs bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 hover:border-red-500/50 px-3 py-2 rounded-lg transition-colors"
+                title="Report this vendor"
+              >
+                Report Issue
+              </button>
+              <button
+                onClick={() => handleBookService(s)}
+                className="flex-1 bg-gradient-to-r from-lime-400 to-lime-500 hover:from-lime-500 hover:to-lime-600 text-black font-semibold px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-lime-400/25"
+              >
+                Book Now
+              </button>
             </div>
           </div>
         ))}
