@@ -8,20 +8,42 @@ export default function StudentDashboard() {
   return (
     <div className="min-h-screen bg-[#0e0e0e] text-white px-8 py-10">
       <div className="max-w-7xl mx-auto">
-        {/* Header with Back Button */}
+        {/* Header with Back Button and Logout */}
         <div className="mb-8">
-          <button
-            onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-lime-400 transition-colors mb-4"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-          </button>
-          <h1 className="text-3xl font-bold">Student Dashboard</h1>
-          <p className="text-gray-400 text-lg mt-2">
-            Welcome back, {user?.name}! View and manage your campus service bookings
+          <div className="flex justify-between items-start mb-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-lime-400 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back
+            </button>
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <div className="text-sm text-gray-400">Welcome,</div>
+                <div className="text-white font-medium">{user?.name || user?.email || 'Student'}</div>
+              </div>
+              <button
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to logout?')) {
+                    logout();
+                    navigate('/');
+                  }
+                }}
+                className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Logout
+              </button>
+            </div>
+          </div>
+          <h1 className="heading-lg text-gradient">Student Dashboard</h1>
+          <p className="body-md text-gray-400 mt-3 max-w-2xl">
+            Your gateway to campus services. Discover, book, and manage all your academic and lifestyle needs in one convenient platform.
           </p>
         </div>
 
@@ -62,18 +84,18 @@ export default function StudentDashboard() {
           </button>
 
           <button
-            onClick={logout}
-            className="p-4 bg-gradient-to-r from-red-400/10 to-red-500/10 border border-red-400/20 rounded-xl hover:border-red-400/40 hover:shadow-lg hover:shadow-red-400/10 transition-all duration-300 group"
+            onClick={() => navigate("/student/profile")}
+            className="p-4 bg-gradient-to-r from-purple-400/10 to-purple-500/10 border border-purple-400/20 rounded-xl hover:border-purple-400/40 hover:shadow-lg hover:shadow-purple-400/10 transition-all duration-300 group"
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-red-400/20 rounded-lg flex items-center justify-center group-hover:bg-red-400/30 transition-colors">
-                <svg className="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+              <div className="w-10 h-10 bg-purple-400/20 rounded-lg flex items-center justify-center group-hover:bg-purple-400/30 transition-colors">
+                <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
               </div>
               <div className="text-left">
-                <div className="font-semibold text-white group-hover:text-red-400 transition-colors">Logout</div>
-                <div className="text-sm text-gray-400">Sign out of account</div>
+                <div className="font-semibold text-white group-hover:text-purple-400 transition-colors">My Profile</div>
+                <div className="text-sm text-gray-400">Manage your account</div>
               </div>
             </div>
           </button>

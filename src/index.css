@@ -1,7 +1,304 @@
+/* Import Google Fonts for modern typography */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* CSS custom properties for Tailwind compatibility */
+:root {
+  --tw-ring-color: rgb(163 230 53 / var(--tw-ring-opacity));
+}
+
+/* Modern CSS Variables for consistent theming */
+:root {
+  --bg-primary: #0e0e0e;
+  --bg-secondary: #111111;
+  --bg-tertiary: #1a1a1a;
+  --bg-accent: #262626;
+  --text-primary: #ffffff;
+  --text-secondary: #e5e7eb;
+  --text-muted: #9ca3af;
+  --accent-primary: #84cc16;
+  --accent-secondary: #a3e635;
+  --accent-hover: #65a30d;
+  --border-color: #374151;
+  --shadow-color: rgba(163, 230, 53, 0.1);
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+
+  /* Font families */
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Space Grotesk', 'Inter', sans-serif;
+  --font-accent: 'Plus Jakarta Sans', 'Inter', sans-serif;
+}
+
+/* Modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--accent-primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-hover);
+}
+
+/* Smooth transitions for all elements */
+* {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Modern focus states */
+*:focus {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+}
+
+/* Glassmorphism utility classes */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-hover {
+  transition: all 0.3s ease;
+}
+
+.glass-hover:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px var(--shadow-color);
+}
+
+/* Modern button animations */
+.btn-modern {
+  position: relative;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.btn-modern::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-modern:hover::before {
+  left: 100%;
+}
+
+/* Card hover effects */
+.card-modern {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateZ(0);
+}
+
+.card-modern:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px var(--shadow-color);
+}
+
+/* Loading animation */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+.loading-shimmer {
+  background: linear-gradient(90deg, var(--bg-tertiary) 25%, var(--bg-accent) 50%, var(--bg-tertiary) 75%);
+  background-size: 200px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Modern input styles */
+.input-modern {
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+}
+
+.input-modern:focus {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 0 3px rgba(132, 204, 22, 0.1);
+  transform: translateY(-1px);
+}
+
+/* Status badges with modern styling */
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-pending {
+  background: rgba(245, 158, 11, 0.1);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.status-confirmed {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.status-completed {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.status-cancelled {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Modern gradient backgrounds */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+}
+
+.gradient-secondary {
+  background: linear-gradient(135deg, var(--bg-secondary), var(--bg-tertiary));
+}
+
+.gradient-accent {
+  background: linear-gradient(135deg, rgba(132, 204, 22, 0.1), rgba(163, 230, 53, 0.05));
+}
+
+/* Typography improvements */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Modern spacing utilities */
+.spacing-modern {
+  padding: 1.5rem;
+}
+
+.spacing-compact {
+  padding: 1rem;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .spacing-modern {
+    padding: 1rem;
+  }
+
+  .card-modern:hover {
+    transform: none;
+  }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  :root {
+    --bg-primary: #000000;
+    --bg-secondary: #1a1a1a;
+    --text-primary: #ffffff;
+    --border-color: #ffffff;
+  }
+}
+
+/* Typography utilities */
+.font-primary {
+  font-family: var(--font-primary);
+}
+
+.font-heading {
+  font-family: var(--font-heading);
+}
+
+.font-accent {
+  font-family: var(--font-accent);
+}
+
+/* Heading styles with modern fonts */
+.heading-xl {
+  @apply font-heading font-bold text-4xl md:text-5xl lg:text-6xl leading-tight;
+  letter-spacing: -0.02em;
+}
+
+.heading-lg {
+  @apply font-heading font-bold text-2xl md:text-3xl lg:text-4xl leading-tight;
+  letter-spacing: -0.01em;
+}
+
+.heading-md {
+  @apply font-heading font-semibold text-xl md:text-2xl leading-snug;
+}
+
+.heading-sm {
+  @apply font-heading font-semibold text-lg md:text-xl leading-snug;
+}
+
+/* Body text styles */
+.body-lg {
+  @apply font-primary font-normal text-base md:text-lg leading-relaxed;
+}
+
+.body-md {
+  @apply font-primary font-normal text-sm md:text-base leading-relaxed;
+}
+
+.body-sm {
+  @apply font-primary font-normal text-xs md:text-sm leading-relaxed;
+}
+
+/* Accent text for highlights */
+.accent-lg {
+  @apply font-accent font-semibold text-lg md:text-xl leading-snug;
+}
+
+.accent-md {
+  @apply font-accent font-medium text-base md:text-lg leading-relaxed;
+}
+
+.accent-sm {
+  @apply font-accent font-medium text-sm md:text-base leading-relaxed;
+}
+
 body {
-  @apply bg-dark text-white font-sans;
+  @apply bg-dark text-white;
+  font-family: var(--font-primary);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
+  line-height: 1.6;
 }

@@ -117,6 +117,58 @@ export default function Bookings() {
                       })}
                     </div>
                   </div>
+
+                  {/* Payment and Institution Info */}
+                  {booking.institution && (
+                    <div className="flex items-center gap-2 mt-2 text-xs text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                      <span>{booking.institution}</span>
+                    </div>
+                  )}
+
+                  {/* Payment Methods */}
+                  {booking.paymentMethods && booking.paymentMethods.length > 0 && (
+                    <div className="mt-2">
+                      <p className="text-xs text-gray-500 mb-1">Payment Methods:</p>
+                      <div className="flex flex-wrap gap-1">
+                        {booking.paymentMethods.map((method, index) => (
+                          <span
+                            key={index}
+                            className="inline-flex items-center gap-1 px-2 py-1 bg-[#1a1a1a] border border-gray-700 rounded-full text-xs text-gray-300"
+                            title={method.instructions}
+                          >
+                            {method.type === 'mpesa' && (
+                              <>
+                                <span className="text-green-400">📱</span>
+                                <span>M-Pesa</span>
+                              </>
+                            )}
+                            {method.type === 'bank' && (
+                              <>
+                                <span className="text-blue-400">🏦</span>
+                                <span>Bank</span>
+                              </>
+                            )}
+                            {method.type === 'cash' && (
+                              <>
+                                <span className="text-yellow-400">💵</span>
+                                <span>Cash</span>
+                              </>
+                            )}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Vendor Contact */}
+                  {booking.vendorContact && (
+                    <div className="mt-2 text-xs text-gray-400">
+                      <span className="font-medium">Vendor Contact:</span> {booking.vendorContact}
+                    </div>
+                  )}
                 </div>
 
                 <div className="text-right">
@@ -140,12 +192,72 @@ export default function Bookings() {
               {/* Action buttons for pending bookings */}
               {booking.status === 'Pending' && (
                 <div className="flex gap-2 mt-4 pt-4 border-t border-gray-800">
-                  <button className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors">
-                    Contact Vendor
+                  <button
+                    onClick={() => {
+                      if (booking.vendorContact) {
+                        window.open(`tel:${booking.vendorContact}`, '_blank');
+                      } else {
+                        alert('Vendor contact information not available. Please check booking details.');
+                      }
+                    }}
+                    className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm rounded-lg transition-colors"
+                  >
+                    📞 Contact Vendor
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (booking.paymentMethods && booking.paymentMethods.length > 0) {
+                        const paymentInfo = booking.paymentMethods.map(method => method.instructions).join('\n\n');
+                        alert(`Payment Instructions:\n\n${paymentInfo}\n\nPlease make payment and inform the vendor.`);
+                      } else {
+                        alert('Payment method information not available. Please contact the vendor directly.');
+                      }
+                    }}
+                    className="px-4 py-2 bg-lime-600/20 hover:bg-lime-600/30 text-lime-400 border border-lime-600/30 text-sm rounded-lg transition-colors"
+                  >
+                    💳 Payment Info
                   </button>
                   <button className="px-4 py-2 bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 text-sm rounded-lg transition-colors">
                     Cancel Booking
                   </button>
+                </div>
+              )}
+
+              {/* Payment pending status */}
+              {booking.status === 'pending_payment' && (
+                <div className="mt-4 pt-4 border-t border-gray-800">
+                  <div className="bg-yellow-400/10 border border-yellow-400/20 rounded-lg p-3">
+                    <div className="flex items-center gap-2 text-yellow-400 text-sm font-medium mb-2">
+                      <span>⏳</span>
+                      <span>Payment Pending</span>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-3">
+                      Please make payment using the vendor's preferred method and confirm with them.
+                    </p>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          if (booking.paymentMethods && booking.paymentMethods.length > 0) {
+                            const paymentInfo = booking.paymentMethods.map(method => method.instructions).join('\n\n');
+                            alert(`Payment Instructions:\n\n${paymentInfo}`);
+                          }
+                        }}
+                        className="px-3 py-1 bg-lime-600 hover:bg-lime-500 text-black text-xs rounded transition-colors"
+                      >
+                        View Payment Details
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (booking.vendorContact) {
+                            window.open(`tel:${booking.vendorContact}`, '_blank');
+                          }
+                        }}
+                        className="px-3 py-1 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded transition-colors"
+                      >
+                        Contact Vendor
+                      </button>
+                    </div>
+                  </div>
                 </div>
               )}
 

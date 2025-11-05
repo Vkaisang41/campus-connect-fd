@@ -4,6 +4,7 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
+import ServicesPage from "./pages/ServicesPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -27,6 +28,11 @@ import Services from "./pages/student/Services";
 import Bookings from "./pages/student/Bookings";
 import Profile from "./pages/student/Profile";
 
+// Vendor pages
+import AddService from "./pages/vendor/AddService";
+import ManageServices from "./pages/vendor/ManageServices";
+import RevenueReport from "./pages/vendor/RevenueReport";
+
 export default function App() {
   return (
     <Routes>
@@ -34,6 +40,7 @@ export default function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignupPage />} />
+      <Route path="/services" element={<ServicesPage />} />
       <Route path="/about" element={<AboutPage />} />
       <Route path="/contact" element={<ContactPage />} />
       <Route path="/privacy" element={<PrivacyPage />} />
@@ -60,6 +67,13 @@ export default function App() {
           <Route path="bookings" element={<Bookings />} />
           <Route path="profile" element={<Profile />} />
         </Route>
+      </Route>
+
+      {/* Protected vendor routes */}
+      <Route element={<ProtectedRoute role="vendor" />}>
+        <Route path="/vendor/add-service" element={<AddService />} />
+        <Route path="/vendor/manage-services" element={<ManageServices />} />
+        <Route path="/vendor/analytics" element={<RevenueReport />} />
       </Route>
     </Routes>
   );

@@ -2,6 +2,33 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 
+const team = [
+  {
+    name: "Qualicha N.",
+    role: "Frontend Developer",
+    bio: "Frontend developer specializing in modern web technologies and user experience.",
+    testimonial: "CampusConnect saved me hours every week! Laundry pickup and delivery is a game changer."
+  },
+  {
+    name: "Vincent K.",
+    role: "Backend Developer",
+    bio: "Backend specialist building robust APIs and scalable systems for campus services.",
+    testimonial: "Found amazing tutoring services and never have to worry about printing assignments again."
+  },
+  {
+    name: "Rooney K.",
+    role: "UI/UX Designer",
+    bio: "Creative designer crafting intuitive interfaces that enhance student productivity.",
+    testimonial: "The platform is so easy to use. Booked 5 services in under 2 minutes!"
+  },
+  {
+    name: "Ochieng O.",
+    role: "Technical Writer",
+    bio: "Documentation specialist creating comprehensive guides and technical documentation.",
+    testimonial: "CampusConnect made campus life so much easier. Highly recommend to all students!"
+  }
+];
+
 export default function AboutPage() {
   const [teamPhotos, setTeamPhotos] = useState({
     "Qualicha N.": "/api/placeholder/300/300",
@@ -52,32 +79,6 @@ export default function AboutPage() {
     { number: "24/7", label: "Support Available" }
   ];
 
-  const team = [
-    {
-      name: "Qualicha N.",
-      role: "Lead Developer",
-      bio: "Full-stack developer specializing in modern web technologies and user experience.",
-      testimonial: "CampusConnect saved me hours every week! Laundry pickup and delivery is a game changer."
-    },
-    {
-      name: "Vincent K.",
-      role: "Project Manager",
-      bio: "Agile project manager ensuring seamless development and delivery of campus solutions.",
-      testimonial: "Found amazing tutoring services and never have to worry about printing assignments again."
-    },
-    {
-      name: "Rooney K.",
-      role: "UI/UX Designer",
-      bio: "Creative designer crafting intuitive interfaces that enhance student productivity.",
-      testimonial: "The platform is so easy to use. Booked 5 services in under 2 minutes!"
-    },
-    {
-      name: "Ochieng O.",
-      role: "Backend Developer",
-      bio: "Backend specialist building robust APIs and scalable systems for campus services.",
-      testimonial: "CampusConnect made campus life so much easier. Highly recommend to all students!"
-    }
-  ];
 
   const values = [
     {

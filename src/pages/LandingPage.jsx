@@ -6,10 +6,10 @@ export default function LandingPage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const testimonials = [
-    { name: "Qualicha N.", role: "Lead Developer", text: "CampusConnect saved me hours every week! Laundry pickup and delivery is a game changer." },
-    { name: "Vincent K.", role: "Project Manager", text: "Found amazing tutoring services and never have to worry about printing assignments again." },
+    { name: "Qualicha N.", role: "Frontend Developer", text: "CampusConnect saved me hours every week! Laundry pickup and delivery is a game changer." },
+    { name: "Vincent K.", role: "Backend Developer", text: "Found amazing tutoring services and never have to worry about printing assignments again." },
     { name: "Rooney K.", role: "UI/UX Designer", text: "The platform is so easy to use. Booked 5 services in under 2 minutes!" },
-    { name: "Ochieng O.", role: "Backend Developer", text: "CampusConnect made campus life so much easier. Highly recommend to all students!" }
+    { name: "Ochieng O.", role: "Technical Writer", text: "CampusConnect made campus life so much easier. Highly recommend to all students!" }
   ];
 
   useEffect(() => {

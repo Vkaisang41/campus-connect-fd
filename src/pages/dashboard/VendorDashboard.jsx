@@ -3,7 +3,7 @@ import { useAuth } from "../../context/AuthContext";
 import { fetchServices } from "../../services/serviceApi";
 
 export default function VendorDashboard() {
-  const { user, addReport } = useAuth();
+  const { user, addReport, logout } = useAuth();
   const [services, setServices] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [editingService, setEditingService] = useState(null);
@@ -84,20 +84,42 @@ export default function VendorDashboard() {
   return (
     <div className="min-h-screen bg-[#0E0E0E] text-white px-8 py-10">
       <div className="max-w-7xl mx-auto">
-        {/* Header with Back Button */}
+        {/* Header with Back Button and Logout */}
         <div className="mb-8">
-          <button
-            onClick={() => window.history.back()}
-            className="inline-flex items-center gap-2 text-gray-400 hover:text-lime-400 transition-colors mb-4"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-            Back
-          </button>
-          <h1 className="text-3xl font-bold">Vendor Dashboard</h1>
-          <p className="text-gray-400 text-lg mt-2">
-            Welcome back, {user?.name}! Manage your services and bookings
+          <div className="flex justify-between items-start mb-4">
+            <button
+              onClick={() => window.history.back()}
+              className="inline-flex items-center gap-2 text-gray-400 hover:text-lime-400 transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back
+            </button>
+            <div className="flex items-center gap-4">
+              <div className="text-right">
+                <div className="text-sm text-gray-400">Welcome,</div>
+                <div className="text-white font-medium">{user?.name || user?.email || 'Vendor'}</div>
+              </div>
+              <button
+                onClick={() => {
+                  if (window.confirm('Are you sure you want to logout?')) {
+                    logout();
+                    window.location.href = '/';
+                  }
+                }}
+                className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+                </svg>
+                Logout
+              </button>
+            </div>
+          </div>
+          <h1 className="heading-lg text-gradient">Vendor Dashboard</h1>
+          <p className="body-md text-gray-400 mt-3 max-w-2xl">
+            Manage your services, track bookings, and grow your business on the CampusConnect platform.
           </p>
         </div>
 
@@ -235,10 +257,16 @@ export default function VendorDashboard() {
             >
               Report Student
             </button>
-            <button className="bg-green-600 hover:bg-green-500 text-white p-3 rounded text-sm">
+            <button
+              onClick={() => window.location.href = '/vendor/add-service'}
+              className="bg-green-600 hover:bg-green-500 text-white p-3 rounded text-sm"
+            >
               Add New Service
             </button>
-            <button className="bg-purple-600 hover:bg-purple-500 text-white p-3 rounded text-sm">
+            <button
+              onClick={() => window.location.href = '/vendor/analytics'}
+              className="bg-purple-600 hover:bg-purple-500 text-white p-3 rounded text-sm"
+            >
               Service Analytics
             </button>
           </div>

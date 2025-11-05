@@ -15,7 +15,11 @@ export default function Services() {
   const { addBooking, addReport, user } = useAuth();
 
   useEffect(() => {
-    fetchServices().then(setServices);
+    fetchServices().then(allServices => {
+      // Filter services by approved status and institution
+      const approvedServices = allServices.filter(service => service.approved === true);
+      setServices(approvedServices);
+    });
   }, []);
 
   useEffect(() => {
@@ -72,12 +76,34 @@ export default function Services() {
   }, [services, searchTerm, selectedCategory, sortBy]);
 
   const handleBookService = (service) => {
-    addBooking({
-      service: service.name,
-      vendor: service.vendorName,
-      price: service.price,
-    });
-    alert(`Booking request sent for ${service.name}!`);
+    // Show payment methods modal before booking
+    const paymentMethodsText = service.paymentMethods?.map(method => {
+      if (method.type === 'mpesa') {
+        return `M-Pesa: ${method.instructions}`;
+      } else if (method.type === 'bank') {
+        return `Bank Transfer: ${method.instructions}`;
+      } else if (method.type === 'cash') {
+        return `Cash: ${method.instructions}`;
+      }
+      return method.instructions;
+    }).join('\n\n') || 'Contact vendor for payment details';
+
+    const confirmBooking = window.confirm(
+      `Book ${service.name} for ${service.price}?\n\nPayment Methods:\n${paymentMethodsText}\n\nVendor Contact: ${service.vendorContact || 'Contact vendor directly'}\n\nNote: Payment is made directly to the vendor using their preferred method. The app does not handle payments.`
+    );
+
+    if (confirmBooking) {
+      addBooking({
+        service: service.name,
+        vendor: service.vendorName,
+        price: service.price,
+        institution: service.institution,
+        paymentMethods: service.paymentMethods,
+        vendorContact: service.vendorContact,
+        status: 'pending_payment'
+      });
+      alert(`Booking request sent for ${service.name}!\n\nPlease make payment using the vendor's preferred method and confirm with the vendor.`);
+    }
   };
 
   const handleReportVendor = (vendorName) => {
@@ -196,16 +222,58 @@ export default function Services() {
 
             <p className="text-sm text-gray-300 mb-4 line-clamp-2 leading-relaxed">{s.description}</p>
 
-            <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold text-lime-400">{s.price}</span>
-                <span className="text-xs text-gray-500">per service</span>
+            <div className="mb-4">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-2xl font-bold text-lime-400">{s.price}</span>
+                  <span className="text-xs text-gray-500">per service</span>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-gray-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>~30 min</span>
+                </div>
               </div>
-              <div className="flex items-center gap-1 text-xs text-gray-400">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span>~30 min</span>
+
+              {/* Institution and Payment Methods */}
+              <div className="space-y-2">
+                <div className="flex items-center gap-2 text-xs text-gray-400">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                  </svg>
+                  <span>{s.institution}</span>
+                </div>
+
+                {/* Payment Methods */}
+                <div className="flex flex-wrap gap-1">
+                  {s.paymentMethods?.map((method, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center gap-1 px-2 py-1 bg-[#1a1a1a] border border-gray-700 rounded-full text-xs text-gray-300"
+                      title={method.instructions}
+                    >
+                      {method.type === 'mpesa' && (
+                        <>
+                          <span className="text-green-400">📱</span>
+                          <span>M-Pesa</span>
+                        </>
+                      )}
+                      {method.type === 'bank' && (
+                        <>
+                          <span className="text-blue-400">🏦</span>
+                          <span>Bank</span>
+                        </>
+                      )}
+                      {method.type === 'cash' && (
+                        <>
+                          <span className="text-yellow-400">💵</span>
+                          <span>Cash</span>
+                        </>
+                      )}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
 
