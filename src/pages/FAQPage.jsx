@@ -150,7 +150,7 @@ export default function FAQPage() {
           <h3 className="text-lg font-semibold mb-4 text-center">Quick Links</h3>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <Link to="/services" className="text-center p-3 rounded-lg hover:bg-[#1a1a1a] transition-colors">
-              <div className="text-lime-400 text-2xl mb-2">🔍</div>
+              <img src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=48&h=48&fit=crop&crop=center" alt="Browse Services" className="w-12 h-12 object-cover rounded-lg mx-auto mb-2" />
               <div className="text-sm font-medium text-white">Browse Services</div>
             </Link>
             <Link to="/about" className="text-center p-3 rounded-lg hover:bg-[#1a1a1a] transition-colors">

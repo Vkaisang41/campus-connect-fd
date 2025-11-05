@@ -350,7 +350,7 @@ export default function AdminDashboard() {
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <div className="font-semibold text-sm">
-                          {report.type === 'student_to_vendor' ? '📚 Student Report' : '🏪 Vendor Report'}
+                          {report.type === 'student_to_vendor' ? 'Student Report' : 'Vendor Report'}
                         </div>
                         <span className={`px-2 py-1 rounded text-xs ${
                           report.status === 'Pending' ? 'bg-yellow-600 text-white' :

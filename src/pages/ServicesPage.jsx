@@ -164,6 +164,13 @@ export default function ServicesPage() {
               key={service.id}
               className="bg-[#0f0f0f] border border-gray-800 p-6 rounded-xl hover:border-lime-400/50 hover:shadow-lg hover:shadow-lime-400/10 transition-all duration-300 group"
             >
+              {service.image && (
+                <img
+                  src={service.image}
+                  alt={service.name}
+                  className="w-full h-32 object-cover rounded-lg mb-4"
+                />
+              )}
               <div className="flex items-start justify-between mb-3">
                 <div className="flex-1">
                   <h3 className="font-semibold text-lg text-white group-hover:text-lime-400 transition-colors mb-1">{service.name}</h3>
@@ -213,42 +220,42 @@ export default function ServicesPage() {
           <h2 className="text-2xl font-semibold mb-6 text-center">Service Categories</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-[#0e0e0e] border border-gray-700 rounded-lg p-6">
-              <div className="text-3xl mb-3">👔</div>
+              <img src="https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=80&h=80&fit=crop&crop=center" alt="Laundry Services" className="w-20 h-20 object-cover rounded-lg mb-3 mx-auto" />
               <h3 className="font-semibold text-white mb-2">Laundry Services</h3>
               <p className="text-gray-400 text-sm mb-3">Professional wash, dry, and fold services with pickup/delivery options.</p>
               <div className="text-lime-400 font-medium">From $5/kg</div>
             </div>
 
             <div className="bg-[#0e0e0e] border border-gray-700 rounded-lg p-6">
-              <div className="text-3xl mb-3">🖨️</div>
+              <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=80&h=80&fit=crop&crop=center" alt="Printing Services" className="w-20 h-20 object-cover rounded-lg mb-3 mx-auto" />
               <h3 className="font-semibold text-white mb-2">Printing Services</h3>
               <p className="text-gray-400 text-sm mb-3">High-quality printing, copying, and binding services available 24/7.</p>
               <div className="text-lime-400 font-medium">From $0.20/page</div>
             </div>
 
             <div className="bg-[#0e0e0e] border border-gray-700 rounded-lg p-6">
-              <div className="text-3xl mb-3">📚</div>
+              <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=80&h=80&fit=crop&crop=center" alt="Tutoring Services" className="w-20 h-20 object-cover rounded-lg mb-3 mx-auto" />
               <h3 className="font-semibold text-white mb-2">Tutoring Services</h3>
               <p className="text-gray-400 text-sm mb-3">Expert academic support across all subjects with qualified tutors.</p>
               <div className="text-lime-400 font-medium">From $25/hour</div>
             </div>
 
             <div className="bg-[#0e0e0e] border border-gray-700 rounded-lg p-6">
-              <div className="text-3xl mb-3">🍕</div>
+              <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=80&h=80&fit=crop&crop=center" alt="Food & Beverage" className="w-20 h-20 object-cover rounded-lg mb-3 mx-auto" />
               <h3 className="font-semibold text-white mb-2">Food & Beverage</h3>
               <p className="text-gray-400 text-sm mb-3">Campus dining, catering, and food delivery services.</p>
               <div className="text-lime-400 font-medium">From $8/meal</div>
             </div>
 
             <div className="bg-[#0e0e0e] border border-gray-700 rounded-lg p-6">
-              <div className="text-3xl mb-3">🚗</div>
+              <img src="https://images.unsplash.com/photo-1485965120184-e220f721d03e?w=80&h=80&fit=crop&crop=center" alt="Transportation" className="w-20 h-20 object-cover rounded-lg mb-3 mx-auto" />
               <h3 className="font-semibold text-white mb-2">Transportation</h3>
               <p className="text-gray-400 text-sm mb-3">Ride sharing, bike rentals, and campus shuttle services.</p>
               <div className="text-lime-400 font-medium">From $5/ride</div>
             </div>
 
             <div className="bg-[#0e0e0e] border border-gray-700 rounded-lg p-6">
-              <div className="text-3xl mb-3">💻</div>
+              <img src="https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=80&h=80&fit=crop&crop=center" alt="Technology Services" className="w-20 h-20 object-cover rounded-lg mb-3 mx-auto" />
               <h3 className="font-semibold text-white mb-2">Technology Services</h3>
               <p className="text-gray-400 text-sm mb-3">Computer repair, software support, and tech consultations.</p>
               <div className="text-lime-400 font-medium">From $15/hour</div>
@@ -262,7 +269,7 @@ export default function ServicesPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-16 h-16 bg-lime-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">🔍</span>
+                <img src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=64&h=64&fit=crop&crop=center" alt="Browse & Select" className="w-8 h-8 object-cover rounded-full" />
               </div>
               <h3 className="font-semibold text-white mb-2">1. Browse & Select</h3>
               <p className="text-gray-400 text-sm">Search through our extensive catalog of campus services and find what you need.</p>
@@ -270,7 +277,7 @@ export default function ServicesPage() {
 
             <div className="text-center">
               <div className="w-16 h-16 bg-blue-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">📅</span>
+                <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=64&h=64&fit=crop&crop=center" alt="Book Instantly" className="w-8 h-8 object-cover rounded-full" />
               </div>
               <h3 className="font-semibold text-white mb-2">2. Book Instantly</h3>
               <p className="text-gray-400 text-sm">Book services with just one click. Get instant confirmation and updates.</p>
@@ -278,7 +285,7 @@ export default function ServicesPage() {
 
             <div className="text-center">
               <div className="w-16 h-16 bg-purple-400/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">✅</span>
+                <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=64&h=64&fit=crop&crop=center" alt="Enjoy Service" className="w-8 h-8 object-cover rounded-full" />
               </div>
               <h3 className="font-semibold text-white mb-2">3. Enjoy Service</h3>
               <p className="text-gray-400 text-sm">Receive your service at the promised time with our quality guarantee.</p>
@@ -289,7 +296,7 @@ export default function ServicesPage() {
         {/* Empty State */}
         {filteredServices.length === 0 && (
           <div className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
+            <img src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=120&h=120&fit=crop&crop=center" alt="No services found" className="w-30 h-30 object-cover rounded-full mx-auto mb-4 opacity-50" />
             <h3 className="text-2xl font-semibold text-white mb-2">No services found</h3>
             <p className="text-gray-400 mb-6">Try adjusting your search or filter criteria</p>
             <button

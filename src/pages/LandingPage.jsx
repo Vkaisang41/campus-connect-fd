@@ -319,14 +319,14 @@ export default function LandingPage() {
               {
                 title: "Printing Services",
                 desc: "24/7 print and copy services for all your needs",
-                icon: "🖨️",
+                icon: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=64&h=64&fit=crop&crop=center",
                 price: "From $0.20/page",
                 rating: "4.6"
               },
               {
                 title: "Tutoring Services",
                 desc: "Expert academic support across all subjects",
-                icon: "📚",
+                icon: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=64&h=64&fit=crop&crop=center",
                 price: "From $25/hour",
                 rating: "4.9"
               },
@@ -373,7 +373,7 @@ export default function LandingPage() {
                 to="/services"
                 className="px-8 py-4 rounded-full border-2 border-gray-600 text-white font-semibold text-lg hover:border-lime-400 hover:text-lime-400 transition-all duration-300 relative group"
               >
-                <span className="relative z-10">🔍 Browse Services</span>
+                <span className="relative z-10">Browse Services</span>
                 <div className="absolute inset-0 bg-lime-400/10 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"></div>
               </Link>
             </div>

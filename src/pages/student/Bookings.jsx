@@ -23,9 +23,9 @@ export default function Bookings() {
 
   const getStatusIcon = (status) => {
     switch (status) {
-      case 'Pending': return '⏳';
-      case 'Confirmed': return '✅';
-      case 'Completed': return '🎉';
+      case 'Pending': return '⏳ Pending';
+      case 'Confirmed': return '✅ Confirmed';
+      case 'Completed': return '🎉 Completed';
       case 'Cancelled': return '❌';
       default: return '📋';
     }

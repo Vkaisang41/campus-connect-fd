@@ -144,8 +144,8 @@ export default function Overview() {
                     booking.status === 'Confirmed' ? 'bg-green-400/20 text-green-400' :
                     'bg-gray-400/20 text-gray-400'
                   }`}>
-                    {booking.status === 'Pending' ? '⏳' :
-                     booking.status === 'Confirmed' ? '✅' : '📋'}
+                    {booking.status === 'Pending' ? '⏳ Pending' :
+                     booking.status === 'Confirmed' ? '✅ Confirmed' : '📋 Completed'}
                   </div>
                   <div>
                     <div className="font-medium text-white">{booking.service}</div>

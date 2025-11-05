@@ -16,8 +16,7 @@ export default function BookingCard({ booking }) {
           <h3 className="text-[14.5px] font-semibold">{serviceName}</h3>
           <div className="mt-2 space-y-1 text-[12.5px] text-gray-300">
             <div className="flex items-center gap-2">
-              <span>📅</span>
-              <span>{dayjs(date).format("YYYY-MM-DD [at] HH:mm")}</span>
+              <span>📅 {dayjs(date).format("YYYY-MM-DD [at] HH:mm")}</span>
             </div>
             <div className="flex items-center gap-2">
               <span>📍</span>
