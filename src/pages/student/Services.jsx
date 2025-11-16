@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchServices } from "../../services/serviceApi";
 import { useAuth } from "../../context/AuthContext";
+import VendorStudentChat from "../../components/chat/VendorStudentChat";
 
 export default function Services() {
   const [services, setServices] = useState([]);
@@ -12,6 +13,8 @@ export default function Services() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [sortBy, setSortBy] = useState("rating");
+  const [showChat, setShowChat] = useState(false);
+  const [chatVendor, setChatVendor] = useState(null);
   const { addBooking, addReport, user } = useAuth();
 
   useEffect(() => {
@@ -109,6 +112,17 @@ export default function Services() {
   const handleReportVendor = (vendorName) => {
     setSelectedVendor(vendorName);
     setShowReportModal(true);
+  };
+
+  const handleChatWithVendor = (service) => {
+    setChatVendor({
+      id: service.vendorId || service.id,
+      name: service.vendorName,
+      role: 'vendor',
+      status: 'online',
+      rating: service.rating
+    });
+    setShowChat(true);
   };
 
   const submitReport = () => {
@@ -312,6 +326,13 @@ export default function Services() {
 
             <div className="flex gap-2">
               <button
+                onClick={() => handleChatWithVendor(s)}
+                className="flex-1 text-xs bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-600/30 hover:border-blue-500/50 px-3 py-2 rounded-lg transition-colors"
+                title="Chat with vendor"
+              >
+                💬 Chat
+              </button>
+              <button
                 onClick={() => handleReportVendor(s.vendorName)}
                 className="flex-1 text-xs bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 hover:border-red-500/50 px-3 py-2 rounded-lg transition-colors"
                 title="Report this vendor"
@@ -328,6 +349,34 @@ export default function Services() {
           </div>
         ))}
       </div>
+
+      {/* Chat Modal */}
+      {showChat && chatVendor && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#0f0f0f] border border-gray-800 rounded-xl w-full max-w-2xl h-[80vh] max-h-[600px] overflow-hidden">
+            <div className="flex items-center justify-between p-4 border-b border-gray-800">
+              <h3 className="text-lg font-semibold text-white">Chat with {chatVendor.name}</h3>
+              <button
+                onClick={() => {
+                  setShowChat(false);
+                  setChatVendor(null);
+                }}
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <div className="h-full">
+              <VendorStudentChat
+                currentUser={{ id: user?.id || 1, name: user?.name || 'Student', role: 'student' }}
+                targetUser={chatVendor}
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Report Modal */}
       {showReportModal && (
