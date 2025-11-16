@@ -379,7 +379,7 @@ export default function LandingPage() {
             <p className="text-gray-400 text-lg">Everything you need for campus life</p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
             {[
               {
                 title: "Laundry Services",
@@ -402,11 +402,32 @@ export default function LandingPage() {
                 price: "From $25/hour",
                 rating: "4.9"
               },
+              {
+                title: "Food Delivery",
+                desc: "Campus dining and food delivery services",
+                icon: "🍕",
+                price: "From $8/meal",
+                rating: "4.7"
+              },
+              {
+                title: "Transportation",
+                desc: "Ride sharing and campus shuttle services",
+                icon: "🚗",
+                price: "From $5/ride",
+                rating: "4.5"
+              },
+              {
+                title: "Tech Support",
+                desc: "Computer repair and IT assistance",
+                icon: "💻",
+                price: "From $15/hour",
+                rating: "4.8"
+              },
             ].map((service, index) => (
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.03, y: -5 }}
-                className="bg-[#0f0f0f] border border-gray-800 rounded-xl p-6 hover:border-lime-400/50 transition-all duration-300 cursor-pointer group"
+                className="flex-shrink-0 w-80 bg-[#0f0f0f] border border-gray-800 rounded-xl p-6 hover:border-lime-400/50 transition-all duration-300 cursor-pointer group"
               >
                 {service.icon.startsWith('http') ? (
                   <img

@@ -158,11 +158,11 @@ export default function ServicesPage() {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="flex gap-6 overflow-x-auto pb-4 scrollbar-hide">
           {filteredServices.map((service) => (
             <div
               key={service.id}
-              className="bg-[#0f0f0f] border border-gray-800 p-6 rounded-xl hover:border-lime-400/50 hover:shadow-lg hover:shadow-lime-400/10 transition-all duration-300 group"
+              className="flex-shrink-0 w-80 bg-[#0f0f0f] border border-gray-800 p-6 rounded-xl hover:border-lime-400/50 hover:shadow-lg hover:shadow-lime-400/10 transition-all duration-300 group"
             >
               {service.image && (
                 <img
