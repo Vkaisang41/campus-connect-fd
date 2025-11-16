@@ -325,7 +325,8 @@ export default function LandingPage() {
                 icon: "👕",
                 price: "From $5/kg",
                 rating: "4.8",
-                category: "Cleaning"
+                category: "Cleaning",
+                popular: true
               },
               {
                 title: "Printing Services",
@@ -333,7 +334,8 @@ export default function LandingPage() {
                 icon: "🖨️",
                 price: "From $0.20/page",
                 rating: "4.6",
-                category: "Academic"
+                category: "Academic",
+                popular: true
               },
               {
                 title: "Tutoring Services",
@@ -341,7 +343,8 @@ export default function LandingPage() {
                 icon: "📚",
                 price: "From $25/hour",
                 rating: "4.9",
-                category: "Education"
+                category: "Education",
+                popular: true
               },
               {
                 title: "Food Delivery",
@@ -349,7 +352,8 @@ export default function LandingPage() {
                 icon: "🍕",
                 price: "From $8/meal",
                 rating: "4.7",
-                category: "Food"
+                category: "Food",
+                popular: false
               },
               {
                 title: "Car Wash",
@@ -357,7 +361,8 @@ export default function LandingPage() {
                 icon: "🚗",
                 price: "From $15/car",
                 rating: "4.5",
-                category: "Automotive"
+                category: "Automotive",
+                popular: false
               },
               {
                 title: "Tech Support",
@@ -365,17 +370,32 @@ export default function LandingPage() {
                 icon: "💻",
                 price: "From $20/hour",
                 rating: "4.8",
-                category: "Technology"
+                category: "Technology",
+                popular: false
               },
             ].map((service, index) => (
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.03, y: -5 }}
-                className="bg-[#0f0f0f] border border-gray-800 rounded-xl p-6 hover:border-lime-400/50 transition-all duration-300 cursor-pointer group"
+                className={`bg-[#0f0f0f] border border-gray-800 rounded-xl p-6 hover:border-lime-400/50 transition-all duration-300 cursor-pointer group relative ${
+                  service.popular ? 'ring-2 ring-lime-400/30' : ''
+                }`}
               >
+                {service.popular && (
+                  <div className="absolute -top-3 left-4 bg-lime-400 text-black text-xs font-bold px-2 py-1 rounded-full">
+                    🔥 Popular
+                  </div>
+                )}
                 <div className="flex items-start justify-between mb-4">
                   <div className="text-4xl">{service.icon}</div>
-                  <span className="text-xs bg-lime-400/20 text-lime-400 px-2 py-1 rounded-full">
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    service.category === 'Cleaning' ? 'bg-blue-500/20 text-blue-400' :
+                    service.category === 'Academic' ? 'bg-purple-500/20 text-purple-400' :
+                    service.category === 'Education' ? 'bg-green-500/20 text-green-400' :
+                    service.category === 'Food' ? 'bg-orange-500/20 text-orange-400' :
+                    service.category === 'Automotive' ? 'bg-red-500/20 text-red-400' :
+                    'bg-gray-500/20 text-gray-400'
+                  }`}>
                     {service.category}
                   </span>
                 </div>
