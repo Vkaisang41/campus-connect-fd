@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import NotificationBell from "../components/NotificationBell";
 import DarkModeToggle from "../components/DarkModeToggle";
 import ParticleBackground from "../components/ParticleBackground";
+import Carousel from "../components/Carousel";
 
 export default function LandingPage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -305,6 +306,67 @@ export default function LandingPage() {
           </div>
         </motion.div>
 
+        {/* Campus Highlights Carousel */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-20"
+        >
+          <Carousel
+            title="Campus Highlights"
+            itemWidth={320}
+            autoPlay={true}
+            autoPlayInterval={4000}
+            items={[
+              <div key="highlight-1" className="bg-gradient-to-br from-lime-400/20 to-blue-500/20 border border-lime-400/30 rounded-xl p-6 h-48 flex flex-col justify-between">
+                <div>
+                  <div className="text-2xl mb-3">🎓</div>
+                  <h3 className="text-xl font-semibold text-white mb-2">Academic Excellence</h3>
+                  <p className="text-gray-300 text-sm">Top-rated tutors and study resources available 24/7</p>
+                </div>
+                <div className="text-lime-400 font-semibold">500+ Students Helped</div>
+              </div>,
+
+              <div key="highlight-2" className="bg-gradient-to-br from-purple-500/20 to-pink-500/20 border border-purple-400/30 rounded-xl p-6 h-48 flex flex-col justify-between">
+                <div>
+                  <div className="text-2xl mb-3">⚡</div>
+                  <h3 className="text-xl font-semibold text-white mb-2">Lightning Fast Service</h3>
+                  <p className="text-gray-300 text-sm">Book and get services delivered within minutes</p>
+                </div>
+                <div className="text-purple-400 font-semibold">2x Faster Than Average</div>
+              </div>,
+
+              <div key="highlight-3" className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 border border-blue-400/30 rounded-xl p-6 h-48 flex flex-col justify-between">
+                <div>
+                  <div className="text-2xl mb-3">🔒</div>
+                  <h3 className="text-xl font-semibold text-white mb-2">Secure & Trusted</h3>
+                  <p className="text-gray-300 text-sm">Bank-level security with verified vendors</p>
+                </div>
+                <div className="text-blue-400 font-semibold">99.9% Uptime</div>
+              </div>,
+
+              <div key="highlight-4" className="bg-gradient-to-br from-orange-500/20 to-red-500/20 border border-orange-400/30 rounded-xl p-6 h-48 flex flex-col justify-between">
+                <div>
+                  <div className="text-2xl mb-3">📱</div>
+                  <h3 className="text-xl font-semibold text-white mb-2">Mobile First</h3>
+                  <p className="text-gray-300 text-sm">Optimized experience across all devices</p>
+                </div>
+                <div className="text-orange-400 font-semibold">95% Mobile Satisfaction</div>
+              </div>,
+
+              <div key="highlight-5" className="bg-gradient-to-br from-green-500/20 to-teal-500/20 border border-green-400/30 rounded-xl p-6 h-48 flex flex-col justify-between">
+                <div>
+                  <div className="text-2xl mb-3">🌟</div>
+                  <h3 className="text-xl font-semibold text-white mb-2">Community Driven</h3>
+                  <p className="text-gray-300 text-sm">Built by students, for students</p>
+                </div>
+                <div className="text-green-400 font-semibold">10K+ Active Users</div>
+              </div>
+            ]}
+          />
+        </motion.div>
+
         {/* Popular Services */}
         <motion.div
           initial={{ opacity: 0, y: 50 }}
@@ -367,6 +429,100 @@ export default function LandingPage() {
               </motion.div>
             ))}
           </div>
+        </motion.div>
+
+        {/* Featured Stories Carousel */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-20"
+        >
+          <Carousel
+            title="Campus Stories"
+            itemWidth={200}
+            autoPlay={true}
+            autoPlayInterval={3000}
+            items={[
+              <div key="story-1" className="relative">
+                <div className="w-48 h-72 bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl p-4 flex flex-col justify-end text-white relative overflow-hidden">
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mb-2">
+                      <span className="text-sm">🎓</span>
+                    </div>
+                    <h4 className="font-semibold text-sm">Study Session</h4>
+                    <p className="text-xs opacity-90">2h ago</p>
+                  </div>
+                </div>
+              </div>,
+
+              <div key="story-2" className="relative">
+                <div className="w-48 h-72 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-2xl p-4 flex flex-col justify-end text-white relative overflow-hidden">
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mb-2">
+                      <span className="text-sm">⚡</span>
+                    </div>
+                    <h4 className="font-semibold text-sm">Quick Service</h4>
+                    <p className="text-xs opacity-90">4h ago</p>
+                  </div>
+                </div>
+              </div>,
+
+              <div key="story-3" className="relative">
+                <div className="w-48 h-72 bg-gradient-to-br from-green-500 to-teal-600 rounded-2xl p-4 flex flex-col justify-end text-white relative overflow-hidden">
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mb-2">
+                      <span className="text-sm">📚</span>
+                    </div>
+                    <h4 className="font-semibold text-sm">Tutoring Success</h4>
+                    <p className="text-xs opacity-90">6h ago</p>
+                  </div>
+                </div>
+              </div>,
+
+              <div key="story-4" className="relative">
+                <div className="w-48 h-72 bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-4 flex flex-col justify-end text-white relative overflow-hidden">
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mb-2">
+                      <span className="text-sm">🍕</span>
+                    </div>
+                    <h4 className="font-semibold text-sm">Food Delivery</h4>
+                    <p className="text-xs opacity-90">8h ago</p>
+                  </div>
+                </div>
+              </div>,
+
+              <div key="story-5" className="relative">
+                <div className="w-48 h-72 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-4 flex flex-col justify-end text-white relative overflow-hidden">
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mb-2">
+                      <span className="text-sm">🚗</span>
+                    </div>
+                    <h4 className="font-semibold text-sm">Car Wash</h4>
+                    <p className="text-xs opacity-90">12h ago</p>
+                  </div>
+                </div>
+              </div>,
+
+              <div key="story-6" className="relative">
+                <div className="w-48 h-72 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-2xl p-4 flex flex-col justify-end text-white relative overflow-hidden">
+                  <div className="absolute inset-0 bg-black/20"></div>
+                  <div className="relative z-10">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mb-2">
+                      <span className="text-sm">💻</span>
+                    </div>
+                    <h4 className="font-semibold text-sm">Tech Support</h4>
+                    <p className="text-xs opacity-90">1d ago</p>
+                  </div>
+                </div>
+              </div>
+            ]}
+          />
         </motion.div>
 
         {/* CTA Section */}
