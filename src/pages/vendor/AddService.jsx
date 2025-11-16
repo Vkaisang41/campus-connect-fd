@@ -10,7 +10,14 @@ export default function AddService() {
     duration: '',
     availability: 'available',
     institution: 'University of Nairobi',
-    paymentMethods: []
+    paymentMethods: [],
+    image: '',
+    contactInfo: '',
+    businessHours: '',
+    location: '',
+    website: '',
+    tags: [],
+    features: []
   });
   const [paymentMethod, setPaymentMethod] = useState({
     type: 'mpesa',
@@ -21,6 +28,8 @@ export default function AddService() {
     accountName: '',
     instructions: ''
   });
+  const [tagInput, setTagInput] = useState('');
+  const [featureInput, setFeatureInput] = useState('');
 
   const addPaymentMethod = () => {
     if (paymentMethod.type === 'mpesa') {
@@ -87,6 +96,40 @@ export default function AddService() {
     }));
   };
 
+  const addTag = () => {
+    if (tagInput.trim() && !formData.tags.includes(tagInput.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        tags: [...prev.tags, tagInput.trim()]
+      }));
+      setTagInput('');
+    }
+  };
+
+  const removeTag = (tagToRemove) => {
+    setFormData(prev => ({
+      ...prev,
+      tags: prev.tags.filter(tag => tag !== tagToRemove)
+    }));
+  };
+
+  const addFeature = () => {
+    if (featureInput.trim() && !formData.features.includes(featureInput.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        features: [...prev.features, featureInput.trim()]
+      }));
+      setFeatureInput('');
+    }
+  };
+
+  const removeFeature = (featureToRemove) => {
+    setFormData(prev => ({
+      ...prev,
+      features: prev.features.filter(feature => feature !== featureToRemove)
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formData.paymentMethods.length === 0) {
@@ -149,9 +192,153 @@ export default function AddService() {
                 onChange={handleChange}
                 rows={4}
                 className="w-full bg-[#222] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none"
-                placeholder="Describe your service..."
+                placeholder="Describe your service in detail..."
                 required
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium mb-2">Service Image URL</label>
+              <input
+                type="url"
+                name="image"
+                value={formData.image}
+                onChange={handleChange}
+                className="w-full bg-[#222] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none"
+                placeholder="https://example.com/image.jpg"
+              />
+              <p className="text-xs text-gray-400 mt-1">Add a high-quality image that represents your service</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Contact Information</label>
+                <input
+                  type="text"
+                  name="contactInfo"
+                  value={formData.contactInfo}
+                  onChange={handleChange}
+                  className="w-full bg-[#222] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none"
+                  placeholder="+254 XXX XXX XXX"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Business Hours</label>
+                <input
+                  type="text"
+                  name="businessHours"
+                  value={formData.businessHours}
+                  onChange={handleChange}
+                  className="w-full bg-[#222] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none"
+                  placeholder="Mon-Fri 9AM-6PM"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-2">Location</label>
+                <input
+                  type="text"
+                  name="location"
+                  value={formData.location}
+                  onChange={handleChange}
+                  className="w-full bg-[#222] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none"
+                  placeholder="Campus location or address"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-2">Website (Optional)</label>
+                <input
+                  type="url"
+                  name="website"
+                  value={formData.website}
+                  onChange={handleChange}
+                  className="w-full bg-[#222] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none"
+                  placeholder="https://yourwebsite.com"
+                />
+              </div>
+            </div>
+
+            {/* Tags Section */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Tags</label>
+              <div className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                  className="flex-1 bg-[#222] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none"
+                  placeholder="Add tags (e.g., fast, reliable, eco-friendly)"
+                />
+                <button
+                  type="button"
+                  onClick={addTag}
+                  className="px-4 py-3 bg-lime-600 hover:bg-lime-500 text-black rounded-lg font-medium transition-colors"
+                >
+                  Add
+                </button>
+              </div>
+              {formData.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {formData.tags.map((tag, index) => (
+                    <span
+                      key={index}
+                      className="inline-flex items-center gap-2 bg-lime-400/20 text-lime-400 px-3 py-1 rounded-full text-sm"
+                    >
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => removeTag(tag)}
+                        className="hover:text-red-400"
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Features Section */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Key Features</label>
+              <div className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  value={featureInput}
+                  onChange={(e) => setFeatureInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
+                  className="flex-1 bg-[#222] border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-lime-400 focus:outline-none"
+                  placeholder="Add features (e.g., 24/7 service, eco-friendly, express delivery)"
+                />
+                <button
+                  type="button"
+                  onClick={addFeature}
+                  className="px-4 py-3 bg-lime-600 hover:bg-lime-500 text-black rounded-lg font-medium transition-colors"
+                >
+                  Add
+                </button>
+              </div>
+              {formData.features.length > 0 && (
+                <div className="space-y-2">
+                  {formData.features.map((feature, index) => (
+                    <div key={index} className="flex items-center justify-between bg-[#222] border border-gray-600 rounded-lg px-4 py-3">
+                      <span className="text-white">✓ {feature}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeFeature(feature)}
+                        className="text-red-400 hover:text-red-300"
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             <div className="grid grid-cols-2 gap-4">

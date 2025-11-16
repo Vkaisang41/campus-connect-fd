@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -252,6 +253,9 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

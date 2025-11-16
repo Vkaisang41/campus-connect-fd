@@ -7,6 +7,8 @@ import SignupPage from "./pages/SignupPage";
 import ServicesPage from "./pages/ServicesPage";
 
 import ProtectedRoute from "./components/ProtectedRoute";
+import AIChatBox from "./components/AIChatBox";
+import ScrollToTop from "./components/ScrollToTop";
 
 // Dashboard pages
 import StudentDashboard from "./pages/dashboard/StudentDashboard";
@@ -35,46 +37,52 @@ import RevenueReport from "./pages/vendor/RevenueReport";
 
 export default function App() {
   return (
-    <Routes>
-      {/* Public pages */}
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
-      <Route path="/services" element={<ServicesPage />} />
-      <Route path="/about" element={<AboutPage />} />
-      <Route path="/contact" element={<ContactPage />} />
-      <Route path="/privacy" element={<PrivacyPage />} />
-      <Route path="/terms" element={<TermsPage />} />
-      <Route path="/faq" element={<FAQPage />} />
-      <Route path="/help" element={<HelpPage />} />
+    <>
+      <Routes>
+        {/* Public pages */}
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/faq" element={<FAQPage />} />
+        <Route path="/help" element={<HelpPage />} />
 
-      {/* Dashboard routes */}
-      <Route element={<ProtectedRoute role="student" />}>
-        <Route path="/student/dashboard" element={<StudentDashboard />} />
-      </Route>
-      <Route element={<ProtectedRoute role="vendor" />}>
-        <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-      </Route>
-      <Route element={<ProtectedRoute role="admin" />}>
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
-      </Route>
-
-      {/* Protected student routes */}
-      <Route element={<ProtectedRoute role="student" />}>
-        <Route path="/student" element={<StudentLayout />}>
-          <Route path="dashboard" element={<Overview />} />
-          <Route path="services" element={<Services />} />
-          <Route path="bookings" element={<Bookings />} />
-          <Route path="profile" element={<Profile />} />
+        {/* Dashboard routes */}
+        <Route element={<ProtectedRoute role="student" />}>
+          <Route path="/student/dashboard" element={<StudentDashboard />} />
         </Route>
-      </Route>
+        <Route element={<ProtectedRoute role="vendor" />}>
+          <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+        </Route>
+        <Route element={<ProtectedRoute role="admin" />}>
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        </Route>
 
-      {/* Protected vendor routes */}
-      <Route element={<ProtectedRoute role="vendor" />}>
-        <Route path="/vendor/add-service" element={<AddService />} />
-        <Route path="/vendor/manage-services" element={<ManageServices />} />
-        <Route path="/vendor/analytics" element={<RevenueReport />} />
-      </Route>
-    </Routes>
+        {/* Protected student routes */}
+        <Route element={<ProtectedRoute role="student" />}>
+          <Route path="/student" element={<StudentLayout />}>
+            <Route path="dashboard" element={<Overview />} />
+            <Route path="services" element={<Services />} />
+            <Route path="bookings" element={<Bookings />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+        </Route>
+
+        {/* Protected vendor routes */}
+        <Route element={<ProtectedRoute role="vendor" />}>
+          <Route path="/vendor/add-service" element={<AddService />} />
+          <Route path="/vendor/manage-services" element={<ManageServices />} />
+          <Route path="/vendor/analytics" element={<RevenueReport />} />
+        </Route>
+      </Routes>
+
+      {/* Global Components */}
+      <AIChatBox />
+      <ScrollToTop />
+    </>
   );
 }

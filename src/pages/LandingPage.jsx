@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
+import NotificationBell from "../components/NotificationBell";
+import DarkModeToggle from "../components/DarkModeToggle";
+import ParticleBackground from "../components/ParticleBackground";
 
 export default function LandingPage() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -20,7 +23,10 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-[#0a0a0a] via-[#0e0e0e] to-[#1a1a1a] min-h-screen w-full overflow-hidden">
+    <div className="bg-gradient-to-br from-[#0a0a0a] via-[#0e0e0e] to-[#1a1a1a] min-h-screen w-full overflow-hidden relative">
+      {/* Particle Background */}
+      <ParticleBackground />
+
       {/* Animated Background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-lime-400/10 rounded-full blur-3xl animate-pulse"></div>
@@ -49,6 +55,8 @@ export default function LandingPage() {
             <Link to="/about" className="hover:text-lime-400 transition-colors font-medium">About</Link>
             <Link to="/contact" className="hover:text-lime-400 transition-colors font-medium">Contact</Link>
             <Link to="/login" className="hover:text-lime-400 transition-colors font-medium">Login</Link>
+            <NotificationBell />
+            <DarkModeToggle />
             <Link
               to="/signup"
               className="px-6 py-2 rounded-full bg-gradient-to-r from-lime-400 to-lime-500 text-black font-semibold hover:shadow-[0_0_20px_rgba(163,230,53,0.4)] transition-all duration-300 transform hover:scale-105"
@@ -336,7 +344,15 @@ export default function LandingPage() {
                 whileHover={{ scale: 1.03, y: -5 }}
                 className="bg-[#0f0f0f] border border-gray-800 rounded-xl p-6 hover:border-lime-400/50 transition-all duration-300 cursor-pointer group"
               >
-                <div className="text-3xl mb-4">{service.icon}</div>
+                {service.icon.startsWith('http') ? (
+                  <img
+                    src={service.icon}
+                    alt={service.title}
+                    className="w-12 h-12 mb-4 rounded-lg object-cover"
+                  />
+                ) : (
+                  <div className="text-3xl mb-4">{service.icon}</div>
+                )}
                 <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-lime-400 transition-colors">{service.title}</h3>
                 <p className="text-gray-400 mb-4">{service.desc}</p>
                 <div className="flex justify-between items-center">

@@ -208,6 +208,39 @@ export default function Services() {
             key={s.id}
             className="bg-[#0f0f0f] border border-gray-800 p-6 rounded-xl hover:border-lime-400/50 hover:shadow-lg hover:shadow-lime-400/10 transition-all duration-300 group"
           >
+            {/* Service Image */}
+            <div className="mb-4">
+              <div className="w-full h-48 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg overflow-hidden">
+                {s.image ? (
+                  <img
+                    src={s.image}
+                    alt={s.name}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="text-4xl mb-2">
+                        {s.name.toLowerCase().includes('laundry') && '👕'}
+                        {s.name.toLowerCase().includes('print') && '🖨️'}
+                        {s.name.toLowerCase().includes('tutor') && '📚'}
+                        {s.name.toLowerCase().includes('food') && '🍽️'}
+                        {s.name.toLowerCase().includes('transport') && '🚗'}
+                        {s.name.toLowerCase().includes('tech') && '💻'}
+                        {!s.name.toLowerCase().includes('laundry') &&
+                         !s.name.toLowerCase().includes('print') &&
+                         !s.name.toLowerCase().includes('tutor') &&
+                         !s.name.toLowerCase().includes('food') &&
+                         !s.name.toLowerCase().includes('transport') &&
+                         !s.name.toLowerCase().includes('tech') && '🛍️'}
+                      </div>
+                      <p className="text-gray-400 text-sm">Service Image</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div className="flex items-start justify-between mb-3">
               <div className="flex-1">
                 <h3 className="font-semibold text-lg text-white group-hover:text-lime-400 transition-colors mb-1">{s.name}</h3>
