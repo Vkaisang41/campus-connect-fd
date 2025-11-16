@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { fetchServices } from "../../services/serviceApi";
+import AnalyticsDashboard from "../../components/analytics/AnalyticsDashboard";
+import OfflineMode from "../../components/system/OfflineMode";
 
 export default function AdminDashboard() {
   const { reports, notifications, markNotificationAsRead, getUnreadNotifications, logout, user } = useAuth();
@@ -25,6 +27,7 @@ export default function AdminDashboard() {
     { id: 1, name: "John Laundry Services", email: "john@laundry.com", institution: "University of Nairobi", serviceType: "Laundry", status: "Pending" },
     { id: 2, name: "TechFix Solutions", email: "info@techfix.co.ke", institution: "Kenyatta University", serviceType: "IT Support", status: "Pending" }
   ]);
+  const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
     fetchServices().then(allServices => {
@@ -54,8 +57,35 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0E0E0E] text-white px-8 py-10">
+    <div className="min-h-screen bg-[#0E0E0E] text-white px-4 sm:px-6 lg:px-8 py-6 lg:py-10">
       <div className="max-w-[1200px] mx-auto">
+        {/* Tab Navigation */}
+        <div className="mb-8">
+          <div className="flex flex-wrap gap-2 mb-6">
+            {[
+              { id: 'overview', label: 'Overview', icon: '📊' },
+              { id: 'analytics', label: 'Analytics', icon: '📈' },
+              { id: 'offline', label: 'Offline Mode', icon: '📱' }
+            ].map((tab) => (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id)}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
+                  activeTab === tab.id
+                    ? 'bg-lime-400 text-black'
+                    : 'bg-[#0f0f0f] border border-gray-800 text-gray-300 hover:border-lime-400/50'
+                }`}
+              >
+                <span>{tab.icon}</span>
+                <span>{tab.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Tab Content */}
+        {activeTab === 'overview' && (
+          <>
         {/* Header with Back Button and Logout */}
         <div className="mb-8">
           <div className="flex justify-between items-start mb-4">
@@ -563,6 +593,12 @@ export default function AdminDashboard() {
             </button>
           </div>
         </div>
+          </>
+        )}
+
+        {activeTab === 'analytics' && <AnalyticsDashboard />}
+
+        {activeTab === 'offline' && <OfflineMode />}
       </div>
     </div>
   );
