@@ -317,90 +317,46 @@ export default function LandingPage() {
             <p className="text-gray-400 text-lg">Everything you need for campus life</p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
                 title: "Laundry Services",
                 desc: "Professional wash & fold with pickup/delivery",
                 icon: "👕",
                 price: "From $5/kg",
-                rating: "4.8",
-                category: "Cleaning",
-                popular: true
+                rating: "4.8"
               },
               {
                 title: "Printing Services",
                 desc: "24/7 print and copy services for all your needs",
-                icon: "🖨️",
+                icon: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=64&h=64&fit=crop&crop=center",
                 price: "From $0.20/page",
-                rating: "4.6",
-                category: "Academic",
-                popular: true
+                rating: "4.6"
               },
               {
                 title: "Tutoring Services",
                 desc: "Expert academic support across all subjects",
-                icon: "📚",
+                icon: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=64&h=64&fit=crop&crop=center",
                 price: "From $25/hour",
-                rating: "4.9",
-                category: "Education",
-                popular: true
-              },
-              {
-                title: "Food Delivery",
-                desc: "Fresh meals delivered to your dorm",
-                icon: "🍕",
-                price: "From $8/meal",
-                rating: "4.7",
-                category: "Food",
-                popular: false
-              },
-              {
-                title: "Car Wash",
-                desc: "Professional car cleaning services",
-                icon: "🚗",
-                price: "From $15/car",
-                rating: "4.5",
-                category: "Automotive",
-                popular: false
-              },
-              {
-                title: "Tech Support",
-                desc: "Computer repair and IT assistance",
-                icon: "💻",
-                price: "From $20/hour",
-                rating: "4.8",
-                category: "Technology",
-                popular: false
+                rating: "4.9"
               },
             ].map((service, index) => (
               <motion.div
                 key={index}
                 whileHover={{ scale: 1.03, y: -5 }}
-                className={`bg-[#0f0f0f] border border-gray-800 rounded-xl p-6 hover:border-lime-400/50 transition-all duration-300 cursor-pointer group relative ${
-                  service.popular ? 'ring-2 ring-lime-400/30' : ''
-                }`}
+                className="bg-[#0f0f0f] border border-gray-800 rounded-xl p-6 hover:border-lime-400/50 transition-all duration-300 cursor-pointer group"
               >
-                {service.popular && (
-                  <div className="absolute -top-3 left-4 bg-lime-400 text-black text-xs font-bold px-2 py-1 rounded-full">
-                    🔥 Popular
-                  </div>
+                {service.icon.startsWith('http') ? (
+                  <img
+                    src={service.icon}
+                    alt={service.title}
+                    className="w-12 h-12 mb-4 rounded-lg object-cover"
+                  />
+                ) : (
+                  <div className="text-3xl mb-4">{service.icon}</div>
                 )}
-                <div className="flex items-start justify-between mb-4">
-                  <div className="text-4xl">{service.icon}</div>
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    service.category === 'Cleaning' ? 'bg-blue-500/20 text-blue-400' :
-                    service.category === 'Academic' ? 'bg-purple-500/20 text-purple-400' :
-                    service.category === 'Education' ? 'bg-green-500/20 text-green-400' :
-                    service.category === 'Food' ? 'bg-orange-500/20 text-orange-400' :
-                    service.category === 'Automotive' ? 'bg-red-500/20 text-red-400' :
-                    'bg-gray-500/20 text-gray-400'
-                  }`}>
-                    {service.category}
-                  </span>
-                </div>
                 <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-lime-400 transition-colors">{service.title}</h3>
-                <p className="text-gray-400 mb-4 text-sm leading-relaxed">{service.desc}</p>
+                <p className="text-gray-400 mb-4">{service.desc}</p>
                 <div className="flex justify-between items-center">
                   <span className="text-lime-400 font-semibold">{service.price}</span>
                   <div className="flex items-center space-x-1">
