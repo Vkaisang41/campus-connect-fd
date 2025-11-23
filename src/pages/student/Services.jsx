@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { fetchServices } from "../../services/serviceApi";
 import { useAuth } from "../../context/AuthContext";
 import VendorStudentChat from "../../components/chat/VendorStudentChat";
+import VideoPlayer from "../../components/VideoPlayer";
 
 export default function Services() {
   const [services, setServices] = useState([]);
@@ -146,29 +147,58 @@ export default function Services() {
   };
 
   return (
-    <div className="text-white">
-      <div className="mb-8">
-        <h2 className="text-2xl font-bold mb-2">Available Services</h2>
-        <p className="text-gray-400">Discover and book campus services with ease</p>
+    <div className="text-white min-h-screen pt-20">
+      <div className="mb-12 text-center">
+        <div className="inline-block p-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-2xl mb-6">
+          <div className="bg-slate-900 rounded-xl px-6 py-2">
+            <span className="text-transparent bg-gradient-to-r from-cyan-400 to-purple-500 bg-clip-text font-bold text-sm uppercase tracking-wider">
+              Premium Services
+            </span>
+          </div>
+        </div>
+        <h1 className="text-5xl md:text-6xl font-bold mb-4 text-gradient-premium animate-float">
+          Available Services
+        </h1>
+        <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed">
+          Discover and book premium campus services with cutting-edge technology and seamless experiences
+        </p>
+        <div className="flex items-center justify-center gap-4 mt-6">
+          <div className="flex items-center gap-2 text-cyan-400">
+            <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+            <span className="text-sm font-medium">Live Updates</span>
+          </div>
+          <div className="flex items-center gap-2 text-purple-400">
+            <div className="w-2 h-2 bg-purple-400 rounded-full animate-pulse animation-delay-1000"></div>
+            <span className="text-sm font-medium">24/7 Support</span>
+          </div>
+          <div className="flex items-center gap-2 text-pink-400">
+            <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse animation-delay-2000"></div>
+            <span className="text-sm font-medium">Instant Booking</span>
+          </div>
+        </div>
       </div>
 
       {/* Search and Filters */}
-      <div className="bg-[#0f0f0f] border border-gray-800 rounded-xl p-6 mb-8">
+      <div className="glass-premium rounded-2xl p-8 mb-8 shadow-2xl relative overflow-hidden animate-slide-in-up">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5 animate-pulse"></div>
+        <div className="relative z-10">
         <div className="grid md:grid-cols-4 gap-4">
           {/* Search */}
           <div className="md:col-span-2">
             <label className="block text-sm font-medium text-gray-300 mb-2">Search Services</label>
-            <div className="relative">
+            <div className="relative group">
               <input
                 type="text"
                 placeholder="Search by name, vendor, or description..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-lime-400 focus:outline-none transition-colors"
+                className="w-full bg-slate-800/50 backdrop-blur-sm border border-slate-600/50 rounded-xl px-5 py-4 text-white placeholder-gray-400 focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 hover:border-slate-500/70"
               />
-              <svg className="absolute right-3 top-3.5 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
+              <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+                <svg className="w-5 h-5 text-gray-400 group-focus-within:text-cyan-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
             </div>
           </div>
 
@@ -178,7 +208,7 @@ export default function Services() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-lime-400 focus:outline-none transition-colors"
+              className="w-full bg-slate-800/50 backdrop-blur-sm border border-slate-600/50 rounded-xl px-4 py-4 text-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 hover:border-slate-500/70 appearance-none"
             >
               <option value="All">All Categories</option>
               <option value="Laundry">Laundry</option>
@@ -199,7 +229,7 @@ export default function Services() {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="w-full bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-3 text-white focus:border-lime-400 focus:outline-none transition-colors"
+              className="w-full bg-slate-800/50 backdrop-blur-sm border border-slate-600/50 rounded-xl px-4 py-4 text-white focus:border-cyan-400 focus:outline-none focus:ring-2 focus:ring-cyan-400/20 transition-all duration-300 hover:border-slate-500/70 appearance-none"
             >
               <option value="rating">Highest Rated</option>
               <option value="price-low">Price: Low to High</option>
@@ -210,141 +240,184 @@ export default function Services() {
         </div>
 
         {/* Results Count */}
-        <div className="mt-4 text-sm text-gray-400">
-          Showing {filteredServices.length} of {services.length} services
+        <div className="mt-6 text-sm text-gray-400 bg-slate-800/50 rounded-xl p-4 backdrop-blur-sm border border-slate-700/30">
+          <div className="flex items-center justify-between">
+            <span>Showing <span className="text-cyan-400 font-semibold">{filteredServices.length}</span> of <span className="text-purple-400 font-semibold">{services.length}</span> services</span>
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+              <span className="text-xs text-gray-500">Live Updates</span>
+            </div>
+          </div>
+        </div>
         </div>
       </div>
 
-      {/* Services Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredServices.map((s) => (
+      {/* Services List */}
+      <div className="space-y-6">
+        {filteredServices.map((s, index) => (
           <div
             key={s.id}
-            className="bg-[#0f0f0f] border border-gray-800 p-6 rounded-xl hover:border-lime-400/50 hover:shadow-lg hover:shadow-lime-400/10 transition-all duration-300 group"
+            className="group relative glass-premium interactive-card hover-lift will-change-transform gpu-accelerated p-6 rounded-2xl flex flex-col md:flex-row gap-6 overflow-hidden animate-fade-in-scale"
+            style={{ animationDelay: `${index * 150}ms` }}
           >
-            {/* Service Image */}
-            <div className="mb-4">
-              <div className="w-full h-48 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg overflow-hidden">
-                {s.image ? (
-                  <img
-                    src={s.image}
-                    alt={s.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center">
-                    <div className="text-center">
-                      <div className="text-4xl mb-2">
-                        {s.name.toLowerCase().includes('laundry') && '👕'}
-                        {s.name.toLowerCase().includes('print') && '🖨️'}
-                        {s.name.toLowerCase().includes('tutor') && '📚'}
-                        {s.name.toLowerCase().includes('food') && '🍽️'}
-                        {s.name.toLowerCase().includes('transport') && '🚗'}
-                        {s.name.toLowerCase().includes('tech') && '💻'}
-                        {!s.name.toLowerCase().includes('laundry') &&
-                         !s.name.toLowerCase().includes('print') &&
-                         !s.name.toLowerCase().includes('tutor') &&
-                         !s.name.toLowerCase().includes('food') &&
-                         !s.name.toLowerCase().includes('transport') &&
-                         !s.name.toLowerCase().includes('tech') && '🛍️'}
+            {/* Premium animated background */}
+            <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-all duration-700"></div>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"></div>
+            <div className="absolute -inset-1 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur"></div>
+            {/* Service Image/Video - Left Side */}
+            <div className="md:w-1/3">
+              {s.video ? (
+                <VideoPlayer
+                  videoUrl={s.video}
+                  title={`${s.name} - ${s.vendorName}`}
+                  thumbnail={s.image}
+                  className="w-full h-48 md:h-full"
+                />
+              ) : (
+                <div className="w-full h-48 bg-gradient-to-br from-gray-800 to-gray-900 rounded-lg overflow-hidden">
+                  {s.image ? (
+                    <img
+                      src={s.image}
+                      alt={s.name}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center">
+                      <div className="text-center">
+                        <div className="text-4xl mb-2">
+                          {s.name.toLowerCase().includes('laundry') && '👕'}
+                          {s.name.toLowerCase().includes('print') && '🖨️'}
+                          {s.name.toLowerCase().includes('tutor') && '📚'}
+                          {s.name.toLowerCase().includes('food') && '🍽️'}
+                          {s.name.toLowerCase().includes('transport') && '🚗'}
+                          {s.name.toLowerCase().includes('tech') && '💻'}
+                          {!s.name.toLowerCase().includes('laundry') &&
+                           !s.name.toLowerCase().includes('print') &&
+                           !s.name.toLowerCase().includes('tutor') &&
+                           !s.name.toLowerCase().includes('food') &&
+                           !s.name.toLowerCase().includes('transport') &&
+                           !s.name.toLowerCase().includes('tech') && '🛍️'}
+                        </div>
+                        <p className="text-gray-400 text-sm">Service Image</p>
                       </div>
-                      <p className="text-gray-400 text-sm">Service Image</p>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {/* Service Details - Right Side */}
+            <div className="md:w-2/3 flex flex-col justify-between">
+              <div>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-semibold text-xl text-white group-hover:text-lime-400 transition-colors">{s.name}</h3>
+                      {s.video && (
+                        <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-medium">
+                          🎥 Video
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-sm text-gray-400 mb-2">{s.vendorName}</p>
+                    <div className="flex items-center gap-1 bg-[#1a1a1a] px-2 py-1 rounded-full w-fit">
+                      <span className="text-yellow-400 text-sm">★</span>
+                      <span className="text-sm text-gray-300 font-medium">{s.rating}</span>
+                      <span className="text-xs text-gray-500 ml-1">({s.reviews})</span>
                     </div>
                   </div>
-                )}
-              </div>
-            </div>
-
-            <div className="flex items-start justify-between mb-3">
-              <div className="flex-1">
-                <h3 className="font-semibold text-lg text-white group-hover:text-lime-400 transition-colors mb-1">{s.name}</h3>
-                <p className="text-sm text-gray-400">{s.vendorName}</p>
-              </div>
-              <div className="flex items-center gap-1 bg-[#1a1a1a] px-2 py-1 rounded-full">
-                <span className="text-yellow-400 text-sm">★</span>
-                <span className="text-sm text-gray-300 font-medium">{s.rating}</span>
-                <span className="text-xs text-gray-500 ml-1">({s.reviews})</span>
-              </div>
-            </div>
-
-            <p className="text-sm text-gray-300 mb-4 line-clamp-2 leading-relaxed">{s.description}</p>
-
-            <div className="mb-4">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-2xl font-bold text-lime-400">{s.price}</span>
-                  <span className="text-xs text-gray-500">per service</span>
-                </div>
-                <div className="flex items-center gap-1 text-xs text-gray-400">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <span>~30 min</span>
-                </div>
-              </div>
-
-              {/* Institution and Payment Methods */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-2 text-xs text-gray-400">
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                  </svg>
-                  <span>{s.institution}</span>
                 </div>
 
-                {/* Payment Methods */}
-                <div className="flex flex-wrap gap-1">
-                  {s.paymentMethods?.map((method, index) => (
-                    <span
-                      key={index}
-                      className="inline-flex items-center gap-1 px-2 py-1 bg-[#1a1a1a] border border-gray-700 rounded-full text-xs text-gray-300"
-                      title={method.instructions}
-                    >
-                      {method.type === 'mpesa' && (
-                        <>
-                          <span className="text-green-400">📱</span>
-                          <span>M-Pesa</span>
-                        </>
-                      )}
-                      {method.type === 'bank' && (
-                        <>
-                          <span className="text-blue-400">🏦</span>
-                          <span>Bank</span>
-                        </>
-                      )}
-                      {method.type === 'cash' && (
-                        <>
-                          <span className="text-yellow-400">💵</span>
-                          <span>Cash</span>
-                        </>
-                      )}
-                    </span>
-                  ))}
+                <p className="text-sm text-gray-300 mb-4 leading-relaxed">{s.description}</p>
+
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-2xl font-bold text-lime-400">{s.price}</span>
+                      <span className="text-xs text-gray-500">per service</span>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span>~30 min</span>
+                    </div>
+                  </div>
+
+                  {/* Institution and Payment Methods */}
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2 text-xs text-gray-400">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                      </svg>
+                      <span>{s.institution}</span>
+                    </div>
+
+                    {/* Payment Methods */}
+                    <div className="flex flex-wrap gap-1">
+                      {s.paymentMethods?.map((method, index) => (
+                        <span
+                          key={index}
+                          className="inline-flex items-center gap-1 px-2 py-1 bg-[#1a1a1a] border border-gray-700 rounded-full text-xs text-gray-300"
+                          title={method.instructions}
+                        >
+                          {method.type === 'mpesa' && (
+                            <>
+                              <span className="text-green-400">📱</span>
+                              <span>M-Pesa</span>
+                            </>
+                          )}
+                          {method.type === 'bank' && (
+                            <>
+                              <span className="text-blue-400">🏦</span>
+                              <span>Bank</span>
+                            </>
+                          )}
+                          {method.type === 'cash' && (
+                            <>
+                              <span className="text-yellow-400">💵</span>
+                              <span>Cash</span>
+                            </>
+                          )}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="flex gap-2">
-              <button
-                onClick={() => handleChatWithVendor(s)}
-                className="flex-1 text-xs bg-blue-600/20 hover:bg-blue-600/30 text-blue-400 border border-blue-600/30 hover:border-blue-500/50 px-3 py-2 rounded-lg transition-colors"
-                title="Chat with vendor"
-              >
-                💬 Chat
-              </button>
-              <button
-                onClick={() => handleReportVendor(s.vendorName)}
-                className="flex-1 text-xs bg-red-600/20 hover:bg-red-600/30 text-red-400 border border-red-600/30 hover:border-red-500/50 px-3 py-2 rounded-lg transition-colors"
-                title="Report this vendor"
-              >
-                Report Issue
-              </button>
-              <button
-                onClick={() => handleBookService(s)}
-                className="flex-1 bg-gradient-to-r from-lime-400 to-lime-500 hover:from-lime-500 hover:to-lime-600 text-black font-semibold px-4 py-2 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-lime-400/25"
-              >
-                Book Now
-              </button>
+              <div className="flex gap-3 relative z-10">
+                <button
+                  onClick={() => handleChatWithVendor(s)}
+                  className="flex-1 bg-gradient-to-r from-blue-500/20 to-cyan-500/20 hover:from-blue-500/30 hover:to-cyan-500/30 text-blue-400 hover:text-cyan-400 border border-blue-500/30 hover:border-cyan-500/50 px-4 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 font-medium backdrop-blur-sm"
+                  title="Chat with vendor"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="text-lg">💬</span>
+                    <span className="hidden sm:inline">Chat</span>
+                  </span>
+                </button>
+                <button
+                  onClick={() => handleReportVendor(s.vendorName)}
+                  className="flex-1 bg-gradient-to-r from-red-500/20 to-pink-500/20 hover:from-red-500/30 hover:to-pink-500/30 text-red-400 hover:text-pink-400 border border-red-500/30 hover:border-pink-500/50 px-4 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-red-500/25 font-medium backdrop-blur-sm"
+                  title="Report this vendor"
+                >
+                  <span className="flex items-center justify-center gap-2">
+                    <span className="text-lg">🚨</span>
+                    <span className="hidden sm:inline">Report</span>
+                  </span>
+                </button>
+                <button
+                  onClick={() => handleBookService(s)}
+                  className="flex-1 bg-gradient-to-r from-cyan-500 via-purple-500 to-pink-500 hover:from-cyan-600 hover:via-purple-600 hover:to-pink-600 text-white font-bold px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-purple-500/30 relative overflow-hidden group"
+                >
+                  <span className="relative z-10 flex items-center justify-center gap-2">
+                    <span className="text-lg">✨</span>
+                    <span className="hidden sm:inline">Book Now</span>
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300"></div>
+                </button>
+              </div>
             </div>
           </div>
         ))}

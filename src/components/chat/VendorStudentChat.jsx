@@ -1,47 +1,52 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function VendorStudentChat({ currentUser, targetUser }) {
+export default function VendorStudentChat({ currentUser, targetUser, initialMessages = null }) {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Mock initial conversation
+  // Load initial messages or mock conversation
   useEffect(() => {
-    const mockMessages = [
-      {
-        id: 1,
-        senderId: targetUser.id,
-        senderName: targetUser.name,
-        senderRole: targetUser.role,
-        text: `Hi! I'm interested in your ${targetUser.role === 'vendor' ? 'services' : 'requirements'}. Can we discuss?`,
-        timestamp: new Date(Date.now() - 1000 * 60 * 10),
-        read: true
-      },
-      {
-        id: 2,
-        senderId: currentUser.id,
-        senderName: currentUser.name,
-        senderRole: currentUser.role,
-        text: `Hello! Yes, I'd love to discuss. What would you like to know?`,
-        timestamp: new Date(Date.now() - 1000 * 60 * 9),
-        read: true
-      },
-      {
-        id: 3,
-        senderId: targetUser.id,
-        senderName: targetUser.name,
-        senderRole: targetUser.role,
-        text: targetUser.role === 'vendor'
-          ? "I have some specific requirements for my project. Can you provide a quote?"
-          : "I'd be happy to provide a customized quote. What are your specific needs?",
-        timestamp: new Date(Date.now() - 1000 * 60 * 8),
-        read: true
-      }
-    ];
-    setMessages(mockMessages);
-  }, [currentUser, targetUser]);
+    if (initialMessages && initialMessages.length > 0) {
+      setMessages(initialMessages);
+    } else {
+      // Mock initial conversation
+      const mockMessages = [
+        {
+          id: 1,
+          senderId: targetUser.id,
+          senderName: targetUser.name,
+          senderRole: targetUser.role,
+          text: `Hi! I'm interested in your ${targetUser.role === 'vendor' ? 'services' : 'requirements'}. Can we discuss?`,
+          timestamp: new Date(Date.now() - 1000 * 60 * 10),
+          read: true
+        },
+        {
+          id: 2,
+          senderId: currentUser.id,
+          senderName: currentUser.name,
+          senderRole: currentUser.role,
+          text: `Hello! Yes, I'd love to discuss. What would you like to know?`,
+          timestamp: new Date(Date.now() - 1000 * 60 * 9),
+          read: true
+        },
+        {
+          id: 3,
+          senderId: targetUser.id,
+          senderName: targetUser.name,
+          senderRole: targetUser.role,
+          text: targetUser.role === 'vendor'
+            ? "I have some specific requirements for my project. Can you provide a quote?"
+            : "I'd be happy to provide a customized quote. What are your specific needs?",
+          timestamp: new Date(Date.now() - 1000 * 60 * 8),
+          read: true
+        }
+      ];
+      setMessages(mockMessages);
+    }
+  }, [currentUser, targetUser, initialMessages]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
